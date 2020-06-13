@@ -1,0 +1,48 @@
+<%- include("../partials/header") %>
+
+<h1>User Profile</h1>
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="thumbnail">
+			<div class="caption">
+				<h1><%= user.firstName + " " + user.lastName %></h1>
+			</div>
+			<hr>
+			<img src="<%= user.avatar %>" alt="user profile image">
+			<hr>
+			<div class="caption">
+				<strong>Email: </strong><a href="mailto:<%= user.email %>"><%= user.email %></a>
+				<% if(currentUser && user._id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
+					<div class="caption" style="padding-left: 0; padding-bottom: 0">
+						<a class="btn btn-warning" href="/forgot">Reset Password</a>
+					</div>
+				</div				<% } %>
+			</div>
+			<hr>
+			<div class="caption">
+				<h2 style="margin-top: 10px"><strong>Bio</strong></h2>
+				Mauris aliquam turpis sit amet ipsum rutrum, et vestibulum ante pulvinar. Ut tortor ante, tristique et rutrum ut, volutpat sed metus. Etiam nec justo non orci aliquet semper quis ut augue. Phasellus egestas neque quis scelerisque semper. Etiam sagittis porttitor quam in volutpat. Suspendisse consectetur pretium ipsum, a ullamcorper felis cursus vel. Ut rutrum ligula a erat feugiat, eget ultricies erat dapibus. Aliquam pellentesque eget sapien nec porttitor. Aliquam euismod turpis a magna convallis dignissim. Ut nec urna in sapien suscipit facilisis. Praesent vitae tortor sit amet odio iaculis elementum at nec urna. Aliquam vitae nibh porta lorem egestas vestibulum hendrerit sed leo.
+			</div>
+		</div>
+
+	</div>
+	<div class="col-md-8" style="max-height: 100%;"> %>
+		<div class="thumbnail" >
+			<div class="caption">
+				<h3>
+					<%= user.username %>'s campgrounds: 
+				</h3>
+				<hr>
+			</div>
+			<ul>
+				<% campgrounds.forEach(function(campground) { %>
+					<li><a href="/campgrounds/<%=campground.id %>"><%= campground.name %></a></li>
+				<% }) %>
+			</ul>
+		</div>
+	</div>
+	<div class
+</div>
+
+<%- include("../partials/footer") %>
