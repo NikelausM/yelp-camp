@@ -5,16 +5,14 @@ require('dotenv').config();
 
 const 	express 		= require("express"),
 		app 			= express(),
-		Promise 		= require("bluebird"),
 		bodyParser 		= require("body-parser"),
-		mongoose 		= Promise.promisifyAll(require("mongoose")),
+		mongoose 		= require("mongoose"),
 		passport 		= require("passport"),
 		localStrategy	= require("passport-local"),
 		methodOverride 	= require("method-override"),
 		Campground		= require("./models/campground"),
 		Comment			= require("./models/comment"),
 		User			= require("./models/user"),
-		refreshSeedDB	= require("./seeds"),
 		flash			= require("connect-flash");
 
 // requiring routes
@@ -36,13 +34,24 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
 // connect to db
-const dbURL = "mongodb://localhost:27017/yelp_camp";
-mongoose.connect(dbURL)
-.then(() => console.log("Database connected to: " + dbURL))
-.catch(() => console.log("Database failed to connect to: " + dbURL));
+// const dbURL = "mongodb://localhost:27017/yelp_camp";
+/**
+ * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
+ * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
+ */
+mongoose.Promise = global.Promise;
+const DB_URL = "mongodb+srv://"  + 
+			process.env.DB_USERNAME + ":" + 
+			process.env.DB_PASSWORD + "@" + 
+			process.env.DB_URL + "/" + 
+			process.env.DB_NAME + "?retryWrites=true&w=majority";
 
-// Seed DB
-refreshSeedDB();
+mongoose.connect(DB_URL)
+.then(console.log("Database connected to: " + DB_URL))
+.catch(() => console.log("Database failed to connect to: " + DB_URL));
+
+// seed DB
+
 
 // Moment
 app.locals.moment = require("moment");
@@ -72,6 +81,22 @@ app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 app.use(errorRoutes);
+
+
+// User.find({}, (err, users) => {
+// 	if(err) {
+// 		console.log("error message" + err);
+// 	}
+// 	else if(!users) {
+// 		console.log("No users!");
+// 	}
+// 	else {
+// 		console.log("current users: " + users);
+// 		users.forEach((user) => {
+// 			console.log("user: " + user.username)
+// 		})
+// 	}
+// });
 
 // Tell Express to listen for requests (start server)
 app.listen(3000, function() { 

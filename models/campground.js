@@ -3,11 +3,11 @@ const	mongoose 	= require("mongoose"),
 
 // SCHEMA SETUP
 const campgroundSchema = new mongoose.Schema({
-	name: {type: String, require: true},
-	price: {type: Number, require: true},
-	image: {type: String, require: true},
-	description: {type: String, require: true},
-	location: {type: String, require: true},
+	name: {type: String, required: true},
+	price: {type: Number, required: true},
+	image: {type: String, required: true},
+	description: {type: String, required: true},
+	location: {type: String, required: true},
 	lat: {type: Number, default: 0},
 	lng: {type: Number, default: 0},
 	createdAt: { type: Date, default: Date.now},

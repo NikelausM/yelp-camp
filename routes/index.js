@@ -1,3 +1,5 @@
+const user = require("../models/user");
+
 const 	express = require("express"),
 		router = express.Router(),
 		passport = require("passport"),
@@ -29,11 +31,17 @@ router.post("/register", (req, res) => {
 		newUser.isAdmin = true;
 	}
 	User.register(newUser, req.body.password, (err, user) => {
-		if(err || !user) {
+		if(err) {
 			console.log(err);
 			req.flash("error", err.message);
-			return res.redirect("/register");;
-		}
+			return res.redirect("/register");
+        }
+        else if (!user) {
+            const errMessage = "There was a problem registering the user";
+			console.log(errMessage);
+			req.flash("error", errMessage);
+			return res.redirect("/register");
+        }
 		passport.authenticate("local")(req, res, () => {
 			req.flash("success", "Welcome to YelpCamp " + user.username);
 			res.redirect('/campgrounds');
@@ -64,23 +72,30 @@ router.get("/logout", (req, res) => {
 // USERS PROFILE
 router.get("/users/:id", async (req, res) => {
 	try {
-		let user = await User.findById(req.params.id, (err, foundUser) => {
-			if(!foundUser) {
-				req.flash("error", "Error finding user");
+        console.log("retrieving user");
+		let user = await User.findById(req.params.id, (err, user) => {
+			if(!user) {
+                const errMessage = "no user found";
+                console.log(errMessage);
+				req.flash("error", errMessage);
 				res.redirect("/");
 			}
 		});
-		Campground.find().where("author.id").equals(foundUser._id).exec((err, campgrounds) => {
-			if(!foundUser) {
-				req.flash("error", err.message);
-				console.log(err);
+		Campground.find().where("author.id").equals(user._id).exec((err, campgrounds) => {
+			if(!campgrounds) {
+                const errMessage = "no campgrounds found";
+				req.flash("error", errMessage);
+				console.log(errMessage);
 				res.redirect("/");
 			}
-			res.render("users/show", {user: foundUser, campgrounds: campgrounds});
+			res.render("users/show", {user: user, campgrounds: campgrounds});
 		});
 	}
 	catch(err) {
-		
+        console.log(err);
+        console.trace();
+        req.flash("error", err.message);
+        return res.redirect("back");
 	}
 
 });
