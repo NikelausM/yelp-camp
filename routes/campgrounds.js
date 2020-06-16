@@ -1,12 +1,16 @@
 const 	express 			= require("express"),
 		router 				= express.Router(),
-		Campground 			= require("../models/campground"),
 		middleware			= require("../middleware"), // if file is not specified than it will require index.js in specified folder
-		Comment				= require("../models/comment"),
 		NodeGeocoder 		= require('node-geocoder'),
 		multer 				= require('multer'),
 		cloudinary 			= require('cloudinary');
- 
+
+// requiring models
+const	User				= require("../models/user"),
+	  	Campground 			= require("../models/campground"),
+	  	Comment				= require("../models/comment"),
+	  	Notification		= require("../models/notification");;
+	  
 const options = {
 	provider: 'google',
 	httpAdapter: 'https',
@@ -77,51 +81,77 @@ router.get("/", (req, res) => {
 });
 
 // CREATE
-router.post("/", middleware.isLoggedIn, upload.single("image"), (req, res) => {
-	
-	geocoder.geocode(req.body.campground.location, function (err, data) {
-		if(err) {
-			console.log("Error creating campground - geocode error: \n" + err.message);
-			req.flash('error', 'Invalid address');
-			return res.redirect('back');
-		}
-		else if(!data.length){
+router.post("/", middleware.isLoggedIn, upload.single("image"), async (req, res) => {
+	geocoder.geocode(req.body.campground.location)
+	.then(async (data) => {
+
+		if(!data.length){
 			console.log("Error creating campground - geocode failure - no data length: \n" + err);
 			req.flash('error', 'Invalid address');
 			return res.redirect('back');
 		}
+
 		req.body.campground.lat = data[0].latitude;
 		req.body.campground.lng = data[0].longitude;
 		req.body.campground.location = data[0].formattedAddress;
+	})
+	.then(async() => {
+		let result = await cloudinary.uploader.upload(req.file.path)
+
+		if(!result) {
+			console.log("Failed to upload campground image!");
+			req.flash("error", "Failed to upload campground image!");
+			return res.redirect("back");
+		}
+
+		// add cloudinary url for the image to the campground object under image property
+		req.body.campground.image = result.secure_url;
+
+		// add author to campground
+		req.body.campground.author = {
+			id: req.user._id,
+			username: req.user.username
+		}
+	})
+	.then(async () => {
+		let campground = await Campground.create(req.body.campground);
+
+		if(!campground) {
+			req.flash('error', "Failed to create campground");
+			return res.redirect("back");
+		}
+
+		// Get followers of campground author
+		let user = await User.findById(req.user._id).populate("followers").exec();
+
+		if(!user) {
+			req.flash('error', "Failed to create campground");
+			return res.redirect("back");
+		}
+
+		// Create notification object for followers
+		let newNotification = {
+			username: req.user.username,
+			campgroundId: campground.id,
+		}
+
+		// For each follower create an individual notification model object and add it to their notifications array
+		for(const follower of user.followers) {
+			let notification = await Notification.create(newNotification);
+			await follower.notifications.push(notification);
+			await follower.save();
+		}
 		
-		cloudinary.uploader.upload(req.file.path, function(result) {
-			if(!result) {
-				console.log("Failed to upload campground image!");
-				req.flash("error", "Failed to upload campground image!");
-				return res.redirect("back");
-			}
-			// add cloudinary url for the image to the campground object under image property
-			req.body.campground.image = result.secure_url;
-			// add author to campground
-			req.body.campground.author = {
-				id: req.user._id,
-				username: req.user.username
-			}
-			
-			Campground.create(req.body.campground, function(err, campground) {
-				if (err) {
-					console.log("Error creating campground: \n" + err);
-					req.flash('error', err.message);
-					return res.redirect("back");
-				}
-				else if(!campground) {
-					req.flash('error', "Failed to create campground");
-					return res.redirect("back");
-				}
-				req.flash("success", "Successfully created campground");
-				res.redirect("/campgrounds/" + campground.id);
-			});
-		});
+		console.log("successfully created notifications");
+
+		req.flash("success", "Successfully created campground");
+		res.redirect(`/campgrounds/${campground.id}`);
+	})
+	.catch(err => {
+		console.log(err);
+		console.trace();
+		req.flash("error", err.message);
+		return res.redirect("back");
 	});
 });
 

@@ -2,23 +2,25 @@
 require('dotenv').config();
 
 // requiring packages
+const 	express 			= require("express"),
+		app 				= express(),
+		bodyParser 			= require("body-parser"),
+		mongoose 			= require("mongoose"),
+		passport 			= require("passport"),
+		localStrategy		= require("passport-local"),
+		methodOverride 		= require("method-override"),
+		flash				= require("connect-flash");
 
-const 	express 		= require("express"),
-		app 			= express(),
-		bodyParser 		= require("body-parser"),
-		mongoose 		= require("mongoose"),
-		passport 		= require("passport"),
-		localStrategy	= require("passport-local"),
-		methodOverride 	= require("method-override"),
-		Campground		= require("./models/campground"),
-		Comment			= require("./models/comment"),
-		User			= require("./models/user"),
-		flash			= require("connect-flash");
+// requiring models
+const	User				= require("./models/user"),
+		Campground			= require("./models/campground"),
+		Comment				= require("./models/comment");
+		
 
 // requiring routes
-const 	commentRoutes 		= require("./routes/comments"),
+const 	indexRoutes			= require("./routes/index"),
 		campgroundRoutes 	= require("./routes/campgrounds"),
-		indexRoutes			= require("./routes/index"),
+		commentRoutes 		= require("./routes/comments"),
 		errorRoutes			= require("./routes/errors");
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -41,17 +43,14 @@ mongoose.set('useUnifiedTopology', true);
  */
 mongoose.Promise = global.Promise;
 const DB_URL = "mongodb+srv://"  + 
-			process.env.DB_USERNAME + ":" + 
-			process.env.DB_PASSWORD + "@" + 
-			process.env.DB_URL + "/" + 
-			process.env.DB_NAME + "?retryWrites=true&w=majority";
+				process.env.DB_USERNAME + ":" + 
+				process.env.DB_PASSWORD + "@" + 
+				process.env.DB_URL + "/" + 
+				process.env.DB_NAME + "?retryWrites=true&w=majority";
 
 mongoose.connect(DB_URL)
-.then(console.log("Database connected to: " + DB_URL))
+.then(() => console.log("Database connected to: " + DB_URL))
 .catch(() => console.log("Database failed to connect to: " + DB_URL));
-
-// seed DB
-
 
 // Moment
 app.locals.moment = require("moment");
@@ -69,8 +68,19 @@ passport.use(new localStrategy(User.authenticate())); // make local strategy Use
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
 	res.locals.currentUser = req.user;
+	if(req.user) { // if anyone is logged in via passport
+		try {
+			// only populate notifications that have not been read
+			let user = await User.findById(req.user._id).populate("notifications", null, { isRead: false }).exec();
+			res.locals.notifications = user.notifications.reverse(); // descending notifications
+		}
+		catch(err) {
+			console.log(err);
+			console.trace();
+		}
+	}
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
 	next();
@@ -82,24 +92,8 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 app.use(errorRoutes);
 
-
-// User.find({}, (err, users) => {
-// 	if(err) {
-// 		console.log("error message" + err);
-// 	}
-// 	else if(!users) {
-// 		console.log("No users!");
-// 	}
-// 	else {
-// 		console.log("current users: " + users);
-// 		users.forEach((user) => {
-// 			console.log("user: " + user.username)
-// 		})
-// 	}
-// });
-
 // Tell Express to listen for requests (start server)
-app.listen(3000, function() { 
+app.listen(3000, () => { 
 	console.log('YelpCamp server listening on port 3000'); 
 });
 

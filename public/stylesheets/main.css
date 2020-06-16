@@ -38,24 +38,17 @@ body {
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #f5f5f5;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	background-color: #f5f5f5;
+	margin-top: 16px;
 }
 
 .container .text-muted {
   margin: 20px 0;
-}
-
-.thumbnail img {
-	width: 100%;
-}
-
-.thumbnail {
-	padding: 0;
 }
 
 .delete-form {
@@ -65,13 +58,5 @@ body {
 #map {
 	height: 400px;
 	width: 100%;
-}
-
-.thumbnail hr {
-	margin: 0;
-}
-
-.thumbnail h1 {
-	margin-top: 10px;
 }
 

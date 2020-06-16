@@ -1,6 +1,5 @@
 const 	mongoose 				= require("mongoose"),
-		passportLocalMongoose 	= require("passport-local-mongoose"),
-		bcrypt 					= require("bcrypt-nodejs");
+		passportLocalMongoose 	= require("passport-local-mongoose");
 
 const UserSchema = new mongoose.Schema({
 	username: {type: String, unique: true, required: true},
@@ -12,6 +11,18 @@ const UserSchema = new mongoose.Schema({
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
 	isAdmin: {type: Boolean, default: false},
+	notifications: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Notification",
+		}
+	],
+	followers: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+		}
+	],
 });
 
 UserSchema.plugin(passportLocalMongoose);

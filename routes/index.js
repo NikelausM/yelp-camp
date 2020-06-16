@@ -1,13 +1,18 @@
-const user = require("../models/user");
+// require packages
+const 	express 		= require("express"),
+		router 			= express.Router(),
+		passport 		= require("passport"),
+		async 			= require("async"),
+		nodemailer 		= require("nodemailer"),
+		crypto 			= require("crypto");
+		
+// require models
+const	User 			= require("../models/user"),
+		Campground 		= require("../models/campground"),
+		Notification	= require("../models/notification");
 
-const 	express = require("express"),
-		router = express.Router(),
-		passport = require("passport"),
-		User = require("../models/user"),
-		async =  require("async"),
-		Campground = require("../models/campground"),
-		nodemailer = require("nodemailer"),
-		crypto = require("crypto");
+// require routes
+const	middleware		= require("../middleware");
 
 // Root route
 router.get("/", (req, res) => {
@@ -72,7 +77,7 @@ router.get("/logout", (req, res) => {
 // USERS PROFILE
 router.get("/users/:id", async (req, res) => {
 	try {
-        console.log("retrieving user");
+        // console.log("retrieving user");
 		let user = await User.findById(req.params.id, (err, user) => {
 			if(!user) {
                 const errMessage = "no user found";
@@ -88,7 +93,7 @@ router.get("/users/:id", async (req, res) => {
 				console.log(errMessage);
 				res.redirect("/");
 			}
-			res.render("users/show", {user: user, campgrounds: campgrounds});
+			res.render("users/show", {user, campgrounds});
 		});
 	}
 	catch(err) {
@@ -98,6 +103,57 @@ router.get("/users/:id", async (req, res) => {
         return res.redirect("back");
 	}
 
+});
+
+// follow user
+router.get("/follow/:id", middleware.isLoggedIn, async (req, res) => {
+	try {
+		let user = await User.findById(req.params.id);
+		user.followers.push(req.user._id);
+		user.save();
+		req.flash("success", "Successfully followed " + user.username + "!");
+		res.redirect("/users/" + req.params.id);
+	}
+	catch(err) {
+		console.log(err);
+        console.trace();
+        req.flash("error", err.message);
+        return res.redirect("back");
+	}
+});
+
+// view all notifications
+router.get("/notifications", middleware.isLoggedIn, async (req, res) => {
+	try {
+		let user = await User.findById(req.user._id).populate({
+			path: "notifications", // populate notifications
+			options: {sort: {"_id": -1}} // sort notifications in descending order
+		}).exec();
+		let allNotifications = user.notifications;
+		res.render("notifications/index", {allNotifications});
+	}
+	catch(err) {
+		console.log(err);
+        console.trace();
+        req.flash("error", err.message);
+        return res.redirect("back");
+	}
+});
+
+// handle notification
+router.get("/notifications/:id", middleware.isLoggedIn, async (req, res) => {
+	try {
+		let notification = await Notification.findById(req.params.id);
+		notification.isRead = true; // make seen notification no longer seen in drop down
+		notification.save();
+		res.redirect(`/campgrounds/${notification.campgroundId}`);
+	}
+	catch(err) {
+		console.log(err);
+        console.trace();
+        req.flash("error", err.message);
+        return res.redirect("back");
+	}
 });
 
 // Show request password reset page

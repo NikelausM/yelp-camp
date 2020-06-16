@@ -21,26 +21,29 @@
 		<% } %>
 	</div>
 
-	<div id="landing-header">
-		<h1>Welcome to YelpCamp!</h1>
-		
-		<form action="/campgrounds" method="GET" >
-			<div class="form-group">
-				<input type="text" class="form-control" name="search" placeholder="Campground search..." class="form-control">
-			</div>
-			<div class="form-group mt-3">
-				<button href="/campgrounds" class="btn btn-lg btn-secondary">Search Campgrounds!</a>
-			</div>
-		</form>
+
+	<div class="container">
+		<div id="landing-header">
+			<h1>Welcome to YelpCamp!</h1>
+
+			<form action="/campgrounds" method="GET" >
+				<div class="form-group">
+					<input type="text" class="form-control" name="search" placeholder="Campground search..." class="form-control">
+				</div>
+				<div class="form-group mt-3">
+					<button href="/campgrounds" class="btn btn-lg btn-light">Search Campgrounds!</a>
+				</div>
+			</form>
+		</div>
+		<ul class="slideshow">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
 	</div>
 
-	<ul class="slideshow">
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-		<li></li>
-	</ul>
             
 <%- include("partials/footer") %>
             
