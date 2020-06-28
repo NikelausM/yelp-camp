@@ -67,7 +67,12 @@ class InternalError extends ExtendedError {
 // Resource not found (can be used for bad DB responses)
 class ResourceNotFoundError extends ExtendedError {
 	constructor(params) {
-		super(ResourceNotFoundError.name, params);
+		// Ensure error at least has default parameters
+		params.error = Object.assign(ResourceNotFoundError.defaultProps, params.error);
+		// Ensure data at least has default parameters
+		params.data = Object.assign(ResourceNotFoundError.defaultData, params.data);
+		
+		super(params);
 	}
 	static get defaultProps() {
 		return {
@@ -75,6 +80,15 @@ class ResourceNotFoundError extends ExtendedError {
 			parent: 	"ExtendError",
 			message: 	"Resource could not be found.",
 		};
+	}
+	
+	static get defaultData() {
+		return {
+			provider: 	"",
+			query: 		"",
+			resource: 	"",
+			response: 	"",
+		}
 	}
 }
 

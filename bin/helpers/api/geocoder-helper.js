@@ -13,12 +13,16 @@ const OPTIONS = {
 // const query = req.body.campground.location;
 class GeocoderHelper extends APIHelper {
 	
-	constructor(options = OPTIONS) {
+	constructor(options = GeocoderHelper.defaultOptions) {
 		super({provider: options.provider});
 		this.geocoder = NodeGeocoder(options);
 	};
 	
-	async geocodeData(req) {
+	static get defaultOptions() {
+		return OPTIONS;
+	}
+	
+	async geocodeData() {
 		try {
 			await this.setResponse(this.geocoder.geocode(this.query));
 			if(!this.response.length) {
@@ -26,7 +30,7 @@ class GeocoderHelper extends APIHelper {
 			}
 		}
 		catch(err) {
-			throw new errors.NodeGeocoderResponseError({errorCause: err, data: {callingObj: this, req: req}});
+			throw new errors.NodeGeocoderResponseError({errorCause: err, data: this});
 		}
 	};
 	
