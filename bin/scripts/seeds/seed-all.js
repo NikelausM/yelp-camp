@@ -1,8 +1,11 @@
 const 	mongoose	= require("mongoose"),
 passport	= require("passport"),
-User		= require("../models/user"),
-Campground	= require("../models/campground"),
-Comment		= require("../models/comment");
+User		= require("../../../lib/models/user"),
+Campground	= require("../../../lib/models/campground"),
+Comment		= require("../../../lib/models/comment"),
+Notification		= require("../../../lib/models/notification");
+
+const CampgroundController	= require("../../../lib/controllers/campground-controller");
 
 var userSeeds = [
     {
@@ -85,6 +88,8 @@ async function seedAll() {
         console.log("deleted campgrounds");
         await Comment.deleteMany({});
         console.log("deleted comments");
+		await Notification.deleteMany({});
+		console.log("deleted notifications");
         
         // Add user to database
         const userSeed = userSeeds[0];
@@ -104,10 +109,15 @@ async function seedAll() {
         
         console.log("seeded users");
         
+		
+		
         commentIdx = 0;
         campgroundSeeds.forEach(async (campgroundSeed) => {
             // Create campground and comment using seeds
             const campground = await Campground.create(campgroundSeed);
+			
+			await CampgroundController.setCampgroundLocData(campground);
+			
             console.log("seeded campground");
             // if (commentIdx < commentSeeds.length) {
                 const comment = await Comment.create(commentSeeds[commentIdx++]);
@@ -116,6 +126,10 @@ async function seedAll() {
             // Associate author with campground
             campground.author.id = author._id;
             campground.author.username = author.username;
+			
+			// Associate campground with author
+			author.campgrounds.push(campground);
+			author.save();
 
             // Associate author with comment
             comment.author.id = author._id;

@@ -45,13 +45,11 @@ class CloudinaryHelper extends APIHelper {
 	// Upload image to cloudinary api
 	async uploadImageToCloudinary() {
 		try {
-			console.log("start image to cloudinary");
 			await this.setResponse(this.cloudinary.uploader.upload(this.query));
 			if(!this.response.secure_url) {
 				console.log("empty cloudinary response");
 				throw new errors.CloudinaryResponseError({data: this});
 			}
-			console.log("end image to cloudinary");
 		}
 		catch(err) {
 			console.log("upload image to cloudinary error caught")
