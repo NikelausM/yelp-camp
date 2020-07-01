@@ -60,3 +60,24 @@ body {
 	width: 100%;
 }
 
+.clickable-block,.clickable-block:link,.clickable-block:visited,.clickable-block:focus,.clickable-block:active{
+	display: block;
+	width: 100%;
+	color: inherit;
+	text-decoration: none;
+}
+
+.clickable-block:hover {
+	display: block;
+	width: 100%;s
+	color: #0056b3;
+	text-decoration: none;
+}
+
+.card {
+	background-color: #f8f9fa;
+}
+
+a {
+	text-decoration: none !important;
+}
