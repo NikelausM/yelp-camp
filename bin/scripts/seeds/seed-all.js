@@ -112,7 +112,9 @@ async function seedAll() {
 		
 		
         commentIdx = 0;
-        campgroundSeeds.forEach(async (campgroundSeed) => {
+        // campgroundSeeds.forEach(async (campgroundSeed) => {
+		for(const campgroundSeed of campgroundSeeds) {
+			await (async () => {
             // Create campground and comment using seeds
             const campground = await Campground.create(campgroundSeed);
 			
@@ -128,19 +130,21 @@ async function seedAll() {
             campground.author.username = author.username;
 			
 			// Associate campground with author
-			author.campgrounds.push(campground);
-			author.save();
+			await author.campgrounds.push(campground);
+			await author.save();
 
             // Associate author with comment
             comment.author.id = author._id;
             comment.author.username = author.username;
-            comment.save();
+            await comment.save();
 
             // Add comment to campground
-            campground.comments.push(comment);
-            campground.save();
-        });
-        
+            await campground.comments.push(comment);
+            await campground.save();
+        	})()
+			.catch(err => console.log(err));
+		}
+        console.log("finished seeding");
     }
     catch(err) {
         console.log(err);
