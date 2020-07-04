@@ -28,13 +28,14 @@
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+	position: relative;
+	min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+	/* Margin bottom by footer height */
+	min-height: 100vh;
+	width: 100%;
 }
 
 .footer {
@@ -42,7 +43,7 @@ body {
 	bottom: 0;
 	width: 100%;
 	/* Set the fixed height of the footer here */
-	height: 60px;
+	min-height: 60px;
 	background-color: #f5f5f5;
 	margin-top: 16px;
 }
@@ -192,8 +193,14 @@ body {
 	background-size: cover;
 }
 
+.main-content-div {
+	height: 100%;
+}
+
 .container .my-2 {
 	background-color: grey;
+	height: 100%;
+	min-height: 100%;
 }
 
 .background-text {
