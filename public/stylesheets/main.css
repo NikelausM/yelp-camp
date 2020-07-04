@@ -162,7 +162,7 @@ img:hover {
 /* The Close Button */
 .close {
   position: absolute;
-  top: 15px;
+  top: 50px;
   right: 35px;
   color: #f1f1f1;
   font-size: 40px;
@@ -205,4 +205,14 @@ body {
 
 .background-text {
 	color: white;
+}
+
+.bottom-sharp-corners {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.top-sharp-corners {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
