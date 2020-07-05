@@ -1,8 +1,23 @@
-const assert = require('assert').strict;
-const http = require('http');
+/**
+* Module containing error classing to be thrown in different situations.
+* These error classes extend the stack trace of previously thrown errors.
+* @module errors
+*/
 
-// Base class for errors that can be extended
+/** 
+* Class representing an error that extends previously thrown errors.
+* @class
+* @extends Error
+* @author Jose Nicolas Mora
+*/
 class ExtendedError extends Error {
+	/**
+	* Create an ExtendedError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
 	constructor(params){
 		
 		// Ensure error at least has default parameters
@@ -21,8 +36,11 @@ class ExtendedError extends Error {
 			this.extendStackTrace();
 		}
 	}
-
-	// get static const defaultData property
+	
+	/**
+	* Getter for default error properties.
+	* @return {Object} - Default error properties.
+	*/
 	static get defaultProps() {
 		return {
 			name: 		"ExtendedError",
@@ -41,20 +59,40 @@ class ExtendedError extends Error {
 	// 	}
 	// }
 
-	// Extend the stack trace to include previous errors
+	/**
+	* Extend the stack trace to include previous errors
+	*/ 
 	extendStackTrace() {
 		this.stack = this.stack
 					+ `\nCaused by: ${this.errorCause.stack} \n`;
 	}
 }
 
-// Unknown internal error
+/** 
+* Class representing an internal error.
+* @class
+* @extends ExtendedError
+* @author Jose Nicolas Mora
+*/
 class InternalError extends ExtendedError {
+	/**
+	* Create an InternalError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
 	constructor(params) {
 		// Ensure error at least has default parameters
 		params.error = Object.assign(InternalError.defaultProps, params.error);
 		super(params);
 	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
 	static get defaultProps() {
 		return {
 			name: 		"InternalResponseError",
@@ -64,8 +102,20 @@ class InternalError extends ExtendedError {
 	}
 }
 
-// Resource not found (can be used for bad DB responses)
+/** 
+* Class representing a resource not found error (can be used for bad DB responses).
+* @class
+* @extends ExtendedError
+* @author Jose Nicolas Mora
+*/
 class ResourceNotFoundError extends ExtendedError {
+	/**
+	* Create an ResourceNotFoundError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
 	constructor(params) {
 		// Ensure error at least has default parameters
 		params.error = Object.assign(ResourceNotFoundError.defaultProps, params.error);
@@ -74,6 +124,12 @@ class ResourceNotFoundError extends ExtendedError {
 		
 		super(params);
 	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
 	static get defaultProps() {
 		return {
 			name: 		"ResourceNotFoundError",
@@ -82,6 +138,10 @@ class ResourceNotFoundError extends ExtendedError {
 		};
 	}
 	
+	/**
+	* Getter for default data properties.
+	* @return {Object} - Default error properties.
+	*/
 	static get defaultData() {
 		return {
 			provider: 	"",
@@ -92,8 +152,20 @@ class ResourceNotFoundError extends ExtendedError {
 	}
 }
 
-// Bad API response
+/** 
+* Class representing a bad API response not found error.
+* @class
+* @extends ExtendedError
+* @author Jose Nicolas Mora
+*/
 class APIResponseError extends ExtendedError {
+	/**
+	* Create an APIResponseError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
 	constructor(params){
 		// Ensure error at least has default parameters
 		params.error = Object.assign(APIResponseError.defaultProps, params.error);
@@ -103,6 +175,11 @@ class APIResponseError extends ExtendedError {
 		super(params);
 	}
 	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
 	static get defaultProps() {
 		return {
 			name: 		"APIResponseError",
@@ -111,6 +188,10 @@ class APIResponseError extends ExtendedError {
 		};
 	}
 	
+	/**
+	* Getter for default data properties.
+	* @return {Object} - Default error properties.
+	*/
 	static get defaultData() {
 		return {
 			provider: 	"",
@@ -121,8 +202,20 @@ class APIResponseError extends ExtendedError {
 	}
 }
 
-// Bad Node Geocoder Error
+/** 
+* Class representing a Node Geocoder API response error..
+* @class
+* @extends APIResponseError
+* @author Jose Nicolas Mora
+*/
 class NodeGeocoderResponseError extends APIResponseError {
+	/**
+	* Create an NodeGeocoderResponseError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
 	constructor(params) {
 		
 		// Ensure error at least has default parameters
@@ -130,6 +223,12 @@ class NodeGeocoderResponseError extends APIResponseError {
 
 		super(params);
 	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
 	static get defaultProps() {
 		return {
 			name: 		"NodeGeocoderResponseError",
@@ -139,8 +238,20 @@ class NodeGeocoderResponseError extends APIResponseError {
 	}
 }
 
-// Cloudinary API response error
+/** 
+* Cass representing a Cloudinary API response error.
+* @class
+* @extends APIResponseError
+* @author Jose Nicolas Mora
+*/
 class CloudinaryResponseError extends APIResponseError {
+	/**
+	* Create an CloudinaryResponseError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
 	constructor(params) {
 		
 		// Ensure error at least has default parameters
@@ -148,6 +259,12 @@ class CloudinaryResponseError extends APIResponseError {
 
 		super(params);
 	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
 	static get defaultProps() {
 		return {
 			name: 		"CloudinaryResponseError",

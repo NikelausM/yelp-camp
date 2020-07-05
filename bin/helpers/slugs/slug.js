@@ -1,4 +1,18 @@
+/** 
+* Class containing function which generate and unique slugs for a specified model.
+* @module slug
+* @class
+* @author Jose Nicolas Mora
+*/
 class Slug {
+	
+	/**
+	* Generates and returns a unique slug for a specified model object.
+	* @param {mongoose.Model} model - The model for which a slug will be generated.
+	* @param {String} - The id of the model object.
+	* @param {name} - The name of the model object.
+	* @param {slug} - The slug of the model object.
+	*/
 	static async generateUniqueSlug(model, id, name, slug) {
 		try {
 			// generate the initial slug
@@ -22,6 +36,10 @@ class Slug {
 		}
 	}
 	
+	/**
+	* Converts a potential slug string to be a URL friendly slug string.
+	* @param {string} text - The slug string.
+	*/
 	static slugify(text) {
 		var slug = text.toString().toLowerCase()
 			.replace(/\s+/g, '-')        // Replace spaces with -

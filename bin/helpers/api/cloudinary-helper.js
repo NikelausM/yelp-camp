@@ -1,26 +1,68 @@
-const 	APIHelper 	= require("./api-helper"),
+const 	
+		/**
+		 * api-helper module
+		 * @const
+		 */
+		APIHelper 	= require("./api-helper"),
+		/**
+		 * multer module
+		 * @const
+		 */
 		multer 		= require("multer"),
+		/**
+		 * errors module
+		 * @const
+		 */
 		errors	= require("../../errors/errors");
 
+/**
+* @const
+* @default
+*/
 const CONFIG = {
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
 	api_key: process.env.CLOUDINARY_API_KEY, 
 	api_secret: process.env.CLOUDINARY_API_SECRET
 }
 
+/** 
+* Class representing an API Helper which wraps the Cloudinary API.
+* @module cloudinary-helper
+* @class
+* @extends APIHelper
+* @requires api-helper
+* @requires multer
+* @requires errors
+* @author Jose Nicolas Mora
+*/
 class CloudinaryHelper extends APIHelper {
+	/**
+	* Create an CloudinaryHelper.
+	* @param {Object=} config - The configuration settings for the cloudinary API.
+	* @param {string=} config.cloud_name - The Cloudinary cloud name.
+	* @param {string=} config.api_key - The Cloudinary API key.
+	* @param {string=} config.api_secret - The Cloudinary API secret.
+	*/
 	constructor(config = CloudinaryHelper.defaultConfig) {
 		super({provider: "cloudinary"});
 		this.cloudinary = require("cloudinary");
 		this.cloudinary.config(config);
 	};
 	
-	// Default cloudinary config for image storing
+	/** 
+	* Returns the Default cloudinary config for image storing.
+	* @return The default configuration of the Cloudinary API.
+	*/
 	static get defaultConfig() {
 		return CONFIG;
 	}
 	
-	// Allow only certain file extensions
+	/** 
+	* Restrict file extensions of images to be uploaded to Cloudinary.
+	* @param {Request} - The HTTP request object.
+	* @param {Object} file - The image file to be uploaded.
+	* @param {requestCallback} cb - The callback that handles the response.
+	*/
 	static imageFilter (req, file, cb) {
 		// accept image files only
 		if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
@@ -29,7 +71,10 @@ class CloudinaryHelper extends APIHelper {
 		cb(null, true);
 	};
 	
-	// Cloudinary config for image storing
+	/** 
+	* Returns the disk storage used for cloudinary uploads.
+	* @return {Object} - The disk storage used for cloudinary uploads.
+	*/
 	static get storage() {
 		return multer.diskStorage({
 				filename: function(req, file, callback) {
@@ -38,11 +83,17 @@ class CloudinaryHelper extends APIHelper {
 			})
 	}
 
+	/** 
+	* Returns the multer object used for Cloudinary uploads.
+	* @return {Object} - The multer object used for Cloudinary uploads.
+	*/
 	static get upload() {
 		return multer({ storage: CloudinaryHelper.storage, fileFilter: CloudinaryHelper.imageFilter});
 	}
 	
-	// Upload image to cloudinary api
+	/** 
+	* Upload image to Cloudinary API.
+	*/
 	async uploadImageToCloudinary() {
 		try {
 			await this.setResponse(this.cloudinary.uploader.upload(this.query));
