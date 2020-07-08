@@ -27,12 +27,11 @@ const CONFIG = {
 
 /** 
 * Class representing an API Helper which wraps the Cloudinary API.
-* @module cloudinary-helper
-* @class
-* @extends APIHelper
-* @requires api-helper
+* @module bin/helpers/api/cloudinary-helper
+* @extends bin/helpers/api/api-helper
+* @requires bin/helpers/api/api-helper
 * @requires multer
-* @requires errors
+* @requires bin/errors/errors
 * @author Jose Nicolas Mora
 */
 class CloudinaryHelper extends APIHelper {

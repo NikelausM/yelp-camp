@@ -1,10 +1,15 @@
 /** 
 * Class containing helper functions.
-* @module general-helper
-* @class
+* @module bin/helpers/general/general-helper
 * @author Jose Nicolas Mora
 */
 class GeneralHelper {
+	/**
+	* Create an GeneralHelper.
+	*/
+	constructor() {
+		
+	}
 	/**
 	* Copy the attributes specified in an attributes array of a source object to a target object.
 	* @param {Object} target - Target object to be copied to.

@@ -3,9 +3,8 @@ const errors	= require("../../errors/errors");
 
 /** 
 * Class representing an API Helper which wraps API classes/functions to better handle errors.
-* @module api-helper
-* @class
-* @requires errors
+* @module bin/helpers/api/api-helper
+* @requires bin/errors/errors
 * @author Jose Nicolas Mora
 */
 class APIHelper {

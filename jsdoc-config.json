@@ -1,0 +1,10 @@
+{
+    "opts": {
+        "destination": "docs",          // same as -d docs
+        "recurse": true                  // same as -r
+    },
+
+    "source": {
+        "exclude": [".git", "node_modules", "./yelp-camp.zip"]
+    }
+}

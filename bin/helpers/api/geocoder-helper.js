@@ -24,11 +24,10 @@ const OPTIONS = {
 
 /** 
 * Class representing an API Helper which wraps the Node Geocoder API.
-* @module geocoder-helper
-* @class
-* @extends APIHelper
-* @requires api-helper
-* @requires errors
+* @module bin/helpers/api/geocoder-helper
+* @extends bin/helpers/api/api-helper
+* @requires bin/helpers/api/api-helper
+* @requires bin/errors/errors
 * @author Jose Nicolas Mora
 */
 class GeocoderHelper extends APIHelper {
@@ -72,7 +71,7 @@ class GeocoderHelper extends APIHelper {
 	/** 
 	* Sets the latitude, longitude, and address of a provided object (req).
 	* @param {Object} req - The object, the location data of which, will be set.
-	* @param {number=0} index - The index the node geocoder API response that will be used to set the location data of the object.
+	* @param {number} index - The index the node geocoder API response that will be used to set the location data of the object.
 	*/
 	setLocData(req, index=0) {
 		try {

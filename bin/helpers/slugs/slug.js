@@ -1,7 +1,6 @@
 /** 
 * Class containing function which generate and unique slugs for a specified model.
-* @module slug
-* @class
+* @module bin/helpers/slugs/slug
 * @author Jose Nicolas Mora
 */
 class Slug {

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: bin/helpers/api/api-helper.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: bin/helpers/api/api-helper.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use strict";
+const errors	= require("../../errors/errors");
+
+/** 
+* Class representing an API Helper which wraps API classes/functions to better handle errors.
+* @module bin/helpers/api/api-helper
+* @requires bin/errors/errors
+* @author Jose Nicolas Mora
+*/
+class APIHelper {
+	/**
+	* Create an APIHelper.
+	* @param {Object} params - The API parameters.
+	* @param {string=} params.provider - The API provider (e.g., NodeGeocoder, Cloudinary, Google, etc.).
+	* @param {string=} params.query - The query of a specified API call.
+	* @param {string=} params.resource - The resource requested from a specified API call.
+	*/
+	constructor({provider = "", query = "", resource = ""}) {
+		this._provider = provider;
+		this._query = query;
+		this._resource = resource;
+	}
+	
+	/**
+	* Set the parameters of the APIHelper.
+	* @param {string=} params.provider - The API provider (e.g., NodeGeocoder, Cloudinary, Google, etc.).
+	* @param {string=} params.query - The query of a specified API call.
+	* @param {string=} params.resource - The resource requested from a specified API call.
+	*/
+	setParams({provider = this._provider, query = this._query, resource = this._resource, response = ""}) {
+		this._provider = provider;
+		this._query = query;
+		this._resource = resource;
+	}
+	
+	/**
+	* Getter of provider.
+	* @return {string} API provider.
+	*/
+	get provider() {
+		return this._provider;
+	}
+
+	/**
+	* Setter of provider.
+	* @param {string} newProvider - The API provider.
+	*/
+	set provider(newProvider) {
+		this._provider = newProvider;
+	}
+	
+	/**
+	* Getter of API call query.
+	* @return {string} API call query.
+	*/
+	get query() {
+		return this._query;
+	}
+	
+	/**
+	* Setter of query.
+	* @param {string} - The API call query.
+	*/
+	set query(newQuery) {
+		this._query = newQuery;
+	}
+	
+	/**
+	* Getter of resource requested from API call.
+	* @return {string} resource requested from API call.
+	*/
+	get resource() {
+		return this._resource;
+	}
+	
+	/**
+	* Setter of resource requested from API call.
+	* @param {string} - The resource requested from API call.
+	*/
+	set resourceExpected(newResource) {
+		this._resource = newResource;
+	}
+	
+	/**
+	* Getter of response of API call.
+	* @return {string} response of API call.
+	*/
+	get response() {
+		return this._response;
+	}
+	
+	/**
+	* Setter of response of API call.
+	* @param {string} - The response of API call.
+	*/
+	set response(newResponse) {
+		this._response = newResponse;
+	}
+	
+	/**
+	* Sets the response of the APIHelper as the response of the API call specified.
+	* @param (Function) apiCall - The specified API function to be called.
+	*/
+	async setResponse(apiCall) {
+		try {
+			this._response = await apiCall;
+		}
+		catch(err) {
+			throw new errors.InternalError({errorCause: err, data: this});
+		}
+		if(!this._response) {
+			throw new errors.APIResponseError({data: this});
+		}
+	}
+}
+
+module.exports = APIHelper;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bin_errors_errors.html">bin/errors/errors</a></li><li><a href="module-bin_helpers_api_api-helper.html">bin/helpers/api/api-helper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper.html">bin/helpers/api/cloudinary-helper</a></li><li><a href="module-bin_helpers_api_geocoder-helper.html">bin/helpers/api/geocoder-helper</a></li><li><a href="module-bin_helpers_general_general-helper.html">bin/helpers/general/general-helper</a></li><li><a href="module-bin_helpers_slugs_slug.html">bin/helpers/slugs/slug</a></li><li><a href="module-bin_scripts_seeds_seed-all.html">bin/scripts/seeds/seed-all</a></li><li><a href="module-lib_app.html">lib/app</a></li><li><a href="module-lib_controllers_campground-controller.html">lib/controllers/campground-controller</a></li><li><a href="module-lib_controllers_comment-controller.html">lib/controllers/comment-controller</a></li><li><a href="module-lib_controllers_notification-controller.html">lib/controllers/notification-controller</a></li><li><a href="module-lib_controllers_user-controller.html">lib/controllers/user-controller</a></li><li><a href="module-lib_middleware_middleware.html">lib/middleware/middleware</a></li><li><a href="module-lib_middleware_mongoose_global-pre-hooks.html">lib/middleware/mongoose/global-pre-hooks</a></li><li><a href="module-lib_middleware_mongoose_mongoose-middleware.html">lib/middleware/mongoose/mongoose-middleware</a></li><li><a href="module-lib_models_campground.html">lib/models/campground</a></li><li><a href="module-lib_models_comment.html">lib/models/comment</a></li><li><a href="module-lib_models_notification.html">lib/models/notification</a></li><li><a href="module-lib_models_user.html">lib/models/user</a></li><li><a href="module-lib_routes_campgrounds.html">lib/routes/campgrounds</a></li><li><a href="module-lib_routes_comments.html">lib/routes/comments</a></li><li><a href="module-lib_routes_errors.html">lib/routes/errors</a></li><li><a href="module-lib_routes_index.html">lib/routes/index</a></li></ul><h3>Classes</h3><ul><li><a href="module-bin_errors_errors-APIResponseError.html">APIResponseError</a></li><li><a href="module-bin_errors_errors-CloudinaryResponseError.html">CloudinaryResponseError</a></li><li><a href="module-bin_errors_errors-ExtendedError.html">ExtendedError</a></li><li><a href="module-bin_errors_errors-InternalError.html">InternalError</a></li><li><a href="module-bin_errors_errors-NodeGeocoderResponseError.html">NodeGeocoderResponseError</a></li><li><a href="module-bin_errors_errors-ResourceNotFoundError.html">ResourceNotFoundError</a></li><li><a href="module-bin_helpers_api_api-helper-APIHelper.html">APIHelper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper-CloudinaryHelper.html">CloudinaryHelper</a></li><li><a href="module-bin_helpers_api_geocoder-helper-GeocoderHelper.html">GeocoderHelper</a></li><li><a href="module-bin_helpers_general_general-helper-GeneralHelper.html">GeneralHelper</a></li><li><a href="module-lib_controllers_campground-controller-CampgroundController.html">CampgroundController</a></li><li><a href="module-lib_controllers_comment-controller-CommentController.html">CommentController</a></li><li><a href="module-lib_controllers_notification-controller-NotificationController.html">NotificationController</a></li><li><a href="module-lib_controllers_user-controller-UserController.html">UserController</a></li><li><a href="module-lib_middleware_middleware-MiddlewareObj.html">MiddlewareObj</a></li></ul><h3>Global</h3><ul><li><a href="global.html#APIHelper">APIHelper</a></li><li><a href="global.html#async">async</a></li><li><a href="global.html#Campground">Campground</a></li><li><a href="global.html#CampgroundController">CampgroundController</a></li><li><a href="global.html#CloudinaryHelper">CloudinaryHelper</a></li><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#crypto">crypto</a></li><li><a href="global.html#DB_PROVIDER">DB_PROVIDER</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#GeneralHelper">GeneralHelper</a></li><li><a href="global.html#GeocoderHelper">GeocoderHelper</a></li><li><a href="global.html#middleware">middleware</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#multer">multer</a></li><li><a href="global.html#nodemailer">nodemailer</a></li><li><a href="global.html#Notification">Notification</a></li><li><a href="global.html#OPTIONS">OPTIONS</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#PROVIDER">PROVIDER</a></li><li><a href="global.html#seedAll">seedAll</a></li><li><a href="global.html#Slug">Slug</a></li><li><a href="global.html#staticProperties">staticProperties</a></li><li><a href="global.html#User">User</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 08 2020 17:59:55 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

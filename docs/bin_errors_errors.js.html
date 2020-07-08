@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: bin/errors/errors.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: bin/errors/errors.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+* Module containing error classing to be thrown in different situations.
+* These error classes extend the stack trace of previously thrown errors.
+* @module bin/errors/errors
+*/
+
+/** 
+* Class representing an error that extends previously thrown errors.
+* @extends Error
+* @author Jose Nicolas Mora
+*/
+class ExtendedError extends Error {
+	/**
+	* Create an ExtendedError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
+	constructor(params){
+		
+		// Ensure error at least has default parameters
+		params.error = Object.assign(ExtendedError.defaultProps, params.error);
+		super(params.error.message);
+		
+		// Copy error parameters to error class object
+		Object.assign(this, params.error);
+		
+		// Ensure error instance has data property
+		this.data = Object.assign({}, params.data);
+		
+		// Extend most recent error
+		if(params.errorCause) {
+			this.errorCause = params.errorCause;
+			this.extendStackTrace();
+		}
+	}
+	
+	/**
+	* Getter for default error properties.
+	* @return {Object} - Default error properties.
+	*/
+	static get defaultProps() {
+		return {
+			name: 		"ExtendedError",
+			parent: 	"Error",
+			message: 	"An error occurred.",
+		};
+	}
+	
+	// // Set stack trace
+	// setStackTrace() {
+	// 	if (typeof Error.captureStackTrace === 'function'){
+	// 		// Error.captureStackTrace(this, this.constructor)
+	// 		Error.captureStackTrace(this);
+	// 	} else {
+	// 		this.stack = (new Error(this.message)).stack
+	// 	}
+	// }
+
+	/**
+	* Extend the stack trace to include previous errors
+	*/ 
+	extendStackTrace() {
+		this.stack = this.stack
+					+ `\nCaused by: ${this.errorCause.stack} \n`;
+	}
+}
+
+/** 
+* Class representing an internal error.
+* @class
+* @extends ExtendedError
+* @author Jose Nicolas Mora
+*/
+class InternalError extends ExtendedError {
+	/**
+	* Create an InternalError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
+	constructor(params) {
+		// Ensure error at least has default parameters
+		params.error = Object.assign(InternalError.defaultProps, params.error);
+		super(params);
+	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
+	static get defaultProps() {
+		return {
+			name: 		"InternalResponseError",
+			parent: 	"ExtendErrorClass",
+			message: 	"An internal error occurred.",
+		};
+	}
+}
+
+/** 
+* Class representing a resource not found error (can be used for bad DB responses).
+* @class
+* @extends ExtendedError
+* @author Jose Nicolas Mora
+*/
+class ResourceNotFoundError extends ExtendedError {
+	/**
+	* Create an ResourceNotFoundError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
+	constructor(params) {
+		// Ensure error at least has default parameters
+		params.error = Object.assign(ResourceNotFoundError.defaultProps, params.error);
+		// Ensure data at least has default parameters
+		params.data = Object.assign(ResourceNotFoundError.defaultData, params.data);
+		
+		super(params);
+	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
+	static get defaultProps() {
+		return {
+			name: 		"ResourceNotFoundError",
+			parent: 	"ExtendError",
+			message: 	"Resource could not be found.",
+		};
+	}
+	
+	/**
+	* Getter for default data properties.
+	* @return {Object} - Default error properties.
+	*/
+	static get defaultData() {
+		return {
+			provider: 	"",
+			query: 		"",
+			resource: 	"",
+			response: 	"",
+		}
+	}
+}
+
+/** 
+* Class representing a bad API response not found error.
+* @class
+* @extends ExtendedError
+* @author Jose Nicolas Mora
+*/
+class APIResponseError extends ExtendedError {
+	/**
+	* Create an APIResponseError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
+	constructor(params){
+		// Ensure error at least has default parameters
+		params.error = Object.assign(APIResponseError.defaultProps, params.error);
+		// Ensure data at least has default parameters
+		params.data = Object.assign(APIResponseError.defaultData, params.data);
+
+		super(params);
+	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
+	static get defaultProps() {
+		return {
+			name: 		"APIResponseError",
+			parent: 	"ExtendedError",
+			message: 	"An API provided an incorrect response",
+		};
+	}
+	
+	/**
+	* Getter for default data properties.
+	* @return {Object} - Default error properties.
+	*/
+	static get defaultData() {
+		return {
+			provider: 	"",
+			query: 		"",
+			resource: 	"",
+			response: 	"",
+		}
+	}
+}
+
+/** 
+* Class representing a Node Geocoder API response error..
+* @class
+* @extends APIResponseError
+* @author Jose Nicolas Mora
+*/
+class NodeGeocoderResponseError extends APIResponseError {
+	/**
+	* Create an NodeGeocoderResponseError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
+	constructor(params) {
+		
+		// Ensure error at least has default parameters
+		params.error = Object.assign(NodeGeocoderResponseError.defaultProps, params.error);
+
+		super(params);
+	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
+	static get defaultProps() {
+		return {
+			name: 		"NodeGeocoderResponseError",
+			parent: 	"APIResponseError",
+			message: 	"Address not found.",
+		};
+	}
+}
+
+/** 
+* Cass representing a Cloudinary API response error.
+* @class
+* @extends APIResponseError
+* @author Jose Nicolas Mora
+*/
+class CloudinaryResponseError extends APIResponseError {
+	/**
+	* Create an CloudinaryResponseError.
+	* @override
+	* @param {Object} params - The error parameters supplied.
+	* @param {Error=} params.error - The error being wrapped by this class.
+	* @param {Object=} params.data - The data of the error (Can be any relevant info).
+	*/
+	constructor(params) {
+		
+		// Ensure error at least has default parameters
+		params.error = Object.assign(CloudinaryResponseError.defaultProps, params.error);
+
+		super(params);
+	}
+	
+	/**
+	* Getter for default error properties.
+	* @override
+	* @return {Object} - Default error properties.
+	*/
+	static get defaultProps() {
+		return {
+			name: 		"CloudinaryResponseError",
+			parent: 	"APIResponseError",
+			message: 	"Image could not be uploaded.",
+		};
+	}
+}
+
+module.exports = {
+	ExtendedError,
+	InternalError,
+	ResourceNotFoundError,
+	APIResponseError,
+	NodeGeocoderResponseError,
+	CloudinaryResponseError,
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bin_errors_errors.html">bin/errors/errors</a></li><li><a href="module-bin_helpers_api_api-helper.html">bin/helpers/api/api-helper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper.html">bin/helpers/api/cloudinary-helper</a></li><li><a href="module-bin_helpers_api_geocoder-helper.html">bin/helpers/api/geocoder-helper</a></li><li><a href="module-bin_helpers_general_general-helper.html">bin/helpers/general/general-helper</a></li><li><a href="module-bin_helpers_slugs_slug.html">bin/helpers/slugs/slug</a></li><li><a href="module-bin_scripts_seeds_seed-all.html">bin/scripts/seeds/seed-all</a></li><li><a href="module-lib_app.html">lib/app</a></li><li><a href="module-lib_controllers_campground-controller.html">lib/controllers/campground-controller</a></li><li><a href="module-lib_controllers_comment-controller.html">lib/controllers/comment-controller</a></li><li><a href="module-lib_controllers_notification-controller.html">lib/controllers/notification-controller</a></li><li><a href="module-lib_controllers_user-controller.html">lib/controllers/user-controller</a></li><li><a href="module-lib_middleware_middleware.html">lib/middleware/middleware</a></li><li><a href="module-lib_middleware_mongoose_global-pre-hooks.html">lib/middleware/mongoose/global-pre-hooks</a></li><li><a href="module-lib_middleware_mongoose_mongoose-middleware.html">lib/middleware/mongoose/mongoose-middleware</a></li><li><a href="module-lib_models_campground.html">lib/models/campground</a></li><li><a href="module-lib_models_comment.html">lib/models/comment</a></li><li><a href="module-lib_models_notification.html">lib/models/notification</a></li><li><a href="module-lib_models_user.html">lib/models/user</a></li><li><a href="module-lib_routes_campgrounds.html">lib/routes/campgrounds</a></li><li><a href="module-lib_routes_comments.html">lib/routes/comments</a></li><li><a href="module-lib_routes_errors.html">lib/routes/errors</a></li><li><a href="module-lib_routes_index.html">lib/routes/index</a></li></ul><h3>Classes</h3><ul><li><a href="module-bin_errors_errors-APIResponseError.html">APIResponseError</a></li><li><a href="module-bin_errors_errors-CloudinaryResponseError.html">CloudinaryResponseError</a></li><li><a href="module-bin_errors_errors-ExtendedError.html">ExtendedError</a></li><li><a href="module-bin_errors_errors-InternalError.html">InternalError</a></li><li><a href="module-bin_errors_errors-NodeGeocoderResponseError.html">NodeGeocoderResponseError</a></li><li><a href="module-bin_errors_errors-ResourceNotFoundError.html">ResourceNotFoundError</a></li><li><a href="module-bin_helpers_api_api-helper-APIHelper.html">APIHelper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper-CloudinaryHelper.html">CloudinaryHelper</a></li><li><a href="module-bin_helpers_api_geocoder-helper-GeocoderHelper.html">GeocoderHelper</a></li><li><a href="module-bin_helpers_general_general-helper-GeneralHelper.html">GeneralHelper</a></li><li><a href="module-lib_controllers_campground-controller-CampgroundController.html">CampgroundController</a></li><li><a href="module-lib_controllers_comment-controller-CommentController.html">CommentController</a></li><li><a href="module-lib_controllers_notification-controller-NotificationController.html">NotificationController</a></li><li><a href="module-lib_controllers_user-controller-UserController.html">UserController</a></li><li><a href="module-lib_middleware_middleware-MiddlewareObj.html">MiddlewareObj</a></li></ul><h3>Global</h3><ul><li><a href="global.html#APIHelper">APIHelper</a></li><li><a href="global.html#async">async</a></li><li><a href="global.html#Campground">Campground</a></li><li><a href="global.html#CampgroundController">CampgroundController</a></li><li><a href="global.html#CloudinaryHelper">CloudinaryHelper</a></li><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#crypto">crypto</a></li><li><a href="global.html#DB_PROVIDER">DB_PROVIDER</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#GeneralHelper">GeneralHelper</a></li><li><a href="global.html#GeocoderHelper">GeocoderHelper</a></li><li><a href="global.html#middleware">middleware</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#multer">multer</a></li><li><a href="global.html#nodemailer">nodemailer</a></li><li><a href="global.html#Notification">Notification</a></li><li><a href="global.html#OPTIONS">OPTIONS</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#PROVIDER">PROVIDER</a></li><li><a href="global.html#seedAll">seedAll</a></li><li><a href="global.html#Slug">Slug</a></li><li><a href="global.html#staticProperties">staticProperties</a></li><li><a href="global.html#User">User</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 08 2020 17:59:55 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

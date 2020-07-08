@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: bin/helpers/api/cloudinary-helper.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: bin/helpers/api/cloudinary-helper.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const 	
+		/**
+		 * api-helper module
+		 * @const
+		 */
+		APIHelper 	= require("./api-helper"),
+		/**
+		 * multer module
+		 * @const
+		 */
+		multer 		= require("multer"),
+		/**
+		 * errors module
+		 * @const
+		 */
+		errors	= require("../../errors/errors");
+
+/**
+* @const
+* @default
+*/
+const CONFIG = {
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+	api_key: process.env.CLOUDINARY_API_KEY, 
+	api_secret: process.env.CLOUDINARY_API_SECRET
+}
+
+/** 
+* Class representing an API Helper which wraps the Cloudinary API.
+* @module bin/helpers/api/cloudinary-helper
+* @extends bin/helpers/api/api-helper
+* @requires bin/helpers/api/api-helper
+* @requires multer
+* @requires bin/errors/errors
+* @author Jose Nicolas Mora
+*/
+class CloudinaryHelper extends APIHelper {
+	/**
+	* Create an CloudinaryHelper.
+	* @param {Object=} config - The configuration settings for the cloudinary API.
+	* @param {string=} config.cloud_name - The Cloudinary cloud name.
+	* @param {string=} config.api_key - The Cloudinary API key.
+	* @param {string=} config.api_secret - The Cloudinary API secret.
+	*/
+	constructor(config = CloudinaryHelper.defaultConfig) {
+		super({provider: "cloudinary"});
+		this.cloudinary = require("cloudinary");
+		this.cloudinary.config(config);
+	};
+	
+	/** 
+	* Returns the Default cloudinary config for image storing.
+	* @return The default configuration of the Cloudinary API.
+	*/
+	static get defaultConfig() {
+		return CONFIG;
+	}
+	
+	/** 
+	* Restrict file extensions of images to be uploaded to Cloudinary.
+	* @param {Request} - The HTTP request object.
+	* @param {Object} file - The image file to be uploaded.
+	* @param {requestCallback} cb - The callback that handles the response.
+	*/
+	static imageFilter (req, file, cb) {
+		// accept image files only
+		if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+			return cb(new Error('Only image files are allowed!'), false);
+		}
+		cb(null, true);
+	};
+	
+	/** 
+	* Returns the disk storage used for cloudinary uploads.
+	* @return {Object} - The disk storage used for cloudinary uploads.
+	*/
+	static get storage() {
+		return multer.diskStorage({
+				filename: function(req, file, callback) {
+					callback(null, Date.now() + file.originalname); // image gets stored as current_time+original_name
+				}
+			})
+	}
+
+	/** 
+	* Returns the multer object used for Cloudinary uploads.
+	* @return {Object} - The multer object used for Cloudinary uploads.
+	*/
+	static get upload() {
+		return multer({ storage: CloudinaryHelper.storage, fileFilter: CloudinaryHelper.imageFilter});
+	}
+	
+	/** 
+	* Upload image to Cloudinary API.
+	*/
+	async uploadImageToCloudinary() {
+		try {
+			await this.setResponse(this.cloudinary.uploader.upload(this.query));
+			if(!this.response.secure_url) {
+				console.log("empty cloudinary response");
+				throw new errors.CloudinaryResponseError({data: this});
+			}
+		}
+		catch(err) {
+			console.log("upload image to cloudinary error caught")
+			throw new errors.CloudinaryResponseError({errorCause: err, data: this});
+		}
+	}
+}
+
+
+module.exports = CloudinaryHelper;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bin_errors_errors.html">bin/errors/errors</a></li><li><a href="module-bin_helpers_api_api-helper.html">bin/helpers/api/api-helper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper.html">bin/helpers/api/cloudinary-helper</a></li><li><a href="module-bin_helpers_api_geocoder-helper.html">bin/helpers/api/geocoder-helper</a></li><li><a href="module-bin_helpers_general_general-helper.html">bin/helpers/general/general-helper</a></li><li><a href="module-bin_helpers_slugs_slug.html">bin/helpers/slugs/slug</a></li><li><a href="module-bin_scripts_seeds_seed-all.html">bin/scripts/seeds/seed-all</a></li><li><a href="module-lib_app.html">lib/app</a></li><li><a href="module-lib_controllers_campground-controller.html">lib/controllers/campground-controller</a></li><li><a href="module-lib_controllers_comment-controller.html">lib/controllers/comment-controller</a></li><li><a href="module-lib_controllers_notification-controller.html">lib/controllers/notification-controller</a></li><li><a href="module-lib_controllers_user-controller.html">lib/controllers/user-controller</a></li><li><a href="module-lib_middleware_middleware.html">lib/middleware/middleware</a></li><li><a href="module-lib_middleware_mongoose_global-pre-hooks.html">lib/middleware/mongoose/global-pre-hooks</a></li><li><a href="module-lib_middleware_mongoose_mongoose-middleware.html">lib/middleware/mongoose/mongoose-middleware</a></li><li><a href="module-lib_models_campground.html">lib/models/campground</a></li><li><a href="module-lib_models_comment.html">lib/models/comment</a></li><li><a href="module-lib_models_notification.html">lib/models/notification</a></li><li><a href="module-lib_models_user.html">lib/models/user</a></li><li><a href="module-lib_routes_campgrounds.html">lib/routes/campgrounds</a></li><li><a href="module-lib_routes_comments.html">lib/routes/comments</a></li><li><a href="module-lib_routes_errors.html">lib/routes/errors</a></li><li><a href="module-lib_routes_index.html">lib/routes/index</a></li></ul><h3>Classes</h3><ul><li><a href="module-bin_errors_errors-APIResponseError.html">APIResponseError</a></li><li><a href="module-bin_errors_errors-CloudinaryResponseError.html">CloudinaryResponseError</a></li><li><a href="module-bin_errors_errors-ExtendedError.html">ExtendedError</a></li><li><a href="module-bin_errors_errors-InternalError.html">InternalError</a></li><li><a href="module-bin_errors_errors-NodeGeocoderResponseError.html">NodeGeocoderResponseError</a></li><li><a href="module-bin_errors_errors-ResourceNotFoundError.html">ResourceNotFoundError</a></li><li><a href="module-bin_helpers_api_api-helper-APIHelper.html">APIHelper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper-CloudinaryHelper.html">CloudinaryHelper</a></li><li><a href="module-bin_helpers_api_geocoder-helper-GeocoderHelper.html">GeocoderHelper</a></li><li><a href="module-bin_helpers_general_general-helper-GeneralHelper.html">GeneralHelper</a></li><li><a href="module-lib_controllers_campground-controller-CampgroundController.html">CampgroundController</a></li><li><a href="module-lib_controllers_comment-controller-CommentController.html">CommentController</a></li><li><a href="module-lib_controllers_notification-controller-NotificationController.html">NotificationController</a></li><li><a href="module-lib_controllers_user-controller-UserController.html">UserController</a></li><li><a href="module-lib_middleware_middleware-MiddlewareObj.html">MiddlewareObj</a></li></ul><h3>Global</h3><ul><li><a href="global.html#APIHelper">APIHelper</a></li><li><a href="global.html#async">async</a></li><li><a href="global.html#Campground">Campground</a></li><li><a href="global.html#CampgroundController">CampgroundController</a></li><li><a href="global.html#CloudinaryHelper">CloudinaryHelper</a></li><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#crypto">crypto</a></li><li><a href="global.html#DB_PROVIDER">DB_PROVIDER</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#GeneralHelper">GeneralHelper</a></li><li><a href="global.html#GeocoderHelper">GeocoderHelper</a></li><li><a href="global.html#middleware">middleware</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#multer">multer</a></li><li><a href="global.html#nodemailer">nodemailer</a></li><li><a href="global.html#Notification">Notification</a></li><li><a href="global.html#OPTIONS">OPTIONS</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#PROVIDER">PROVIDER</a></li><li><a href="global.html#seedAll">seedAll</a></li><li><a href="global.html#Slug">Slug</a></li><li><a href="global.html#staticProperties">staticProperties</a></li><li><a href="global.html#User">User</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 08 2020 17:59:55 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

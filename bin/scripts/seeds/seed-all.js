@@ -1,10 +1,39 @@
-const 	mongoose	= require("mongoose"),
-passport	= require("passport"),
-User		= require("../../../lib/models/user"),
-Campground	= require("../../../lib/models/campground"),
-Comment		= require("../../../lib/models/comment"),
-Notification		= require("../../../lib/models/notification");
+const 	
+		/**
+		 * mongoose module
+		 * @const
+		 */
+		mongoose 		= require("mongoose"),
+		/**
+		 * passport module.
+		 * @const
+		 */
+		passport	= require("passport"),
+		/**
+		 * User resource class module
+		 * @const
+		 */
+		User		= require("../../../lib/models/user"),
+		/**
+		 * Campground resource class module
+		 * @const
+		 */
+		Campground	= require("../../../lib/models/campground"),
+		/**
+		 * Comment resource class module
+		 * @const
+		 */
+		Comment		= require("../../../lib/models/comment"),
+		/**
+		 * Notification resource class module
+		 * @const
+		 */
+		Notification		= require("../../../lib/models/notification");
 
+/**
+ * campground-controller module.
+ * @const
+ */
 const CampgroundController	= require("../../../lib/controllers/campground-controller");
 
 var userSeeds = [
@@ -79,6 +108,15 @@ var commentSeeds = [
     },
 ];
 
+/**
+* @module bin/scripts/seeds/seed-all
+* @requires mongoose
+* @requires passport
+* @requires lib/models/user
+* @requires lib/models/campground
+* @requires lib/models/comment
+* @requires lib/models/notification
+*/
 async function seedAll() {
     try {
         console.log("seeding database");

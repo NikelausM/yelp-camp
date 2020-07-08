@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: bin/scripts/seeds/seed-all.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: bin/scripts/seeds/seed-all.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const 	
+		/**
+		 * mongoose module
+		 * @const
+		 */
+		mongoose 		= require("mongoose"),
+		/**
+		 * passport module.
+		 * @const
+		 */
+		passport	= require("passport"),
+		/**
+		 * User resource class module
+		 * @const
+		 */
+		User		= require("../../../lib/models/user"),
+		/**
+		 * Campground resource class module
+		 * @const
+		 */
+		Campground	= require("../../../lib/models/campground"),
+		/**
+		 * Comment resource class module
+		 * @const
+		 */
+		Comment		= require("../../../lib/models/comment"),
+		/**
+		 * Notification resource class module
+		 * @const
+		 */
+		Notification		= require("../../../lib/models/notification");
+
+/**
+ * campground-controller module.
+ * @const
+ */
+const CampgroundController	= require("../../../lib/controllers/campground-controller");
+
+var userSeeds = [
+    {
+        username: "johnny",
+        password: "123",
+        avatar: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.7c3Sxl9sIqfK_2ZrHDIDNwHaG1%26pid%3DApi&amp;f=1",
+        firstName: "John",
+        lastName: "Smith",
+        email: "jsmith@gmail.com",
+        isAdmin: true,
+    },
+    {
+        username: "jackofhearts",
+        password: "456",
+        avatar: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fres.cloudinary.com%2Fteepublic%2Fimage%2Fprivate%2Fs--1JwP1QQk--%2Ft_Preview%2Fb_rgb%3Affffff%2Cc_limit%2Cf_jpg%2Ch_630%2Cq_90%2Cw_630%2Fv1494244008%2Fproduction%2Fdesigns%2F1583244_1.jpg&amp;f=1&amp;nofb=1",
+        firstName: "Jack",
+        lastName: "Hearts",
+        email: "jhearts@gmail.com",
+        isAdmin: false,
+    },
+    {
+        username: "soccer4life",
+        password: "789",
+        avatar: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.p6eeQhZwQjNovIO2T3oe4AHaHa%26pid%3DApi&amp;f=1",
+        firstName: "Sergio",
+        lastName: "Cortez",
+        email: "sergcortez@gmail.com",
+        isAdmin: false,
+    },
+]
+
+var campgroundSeeds = [
+    {
+        name: "Clearwater Tipi Park",
+        price: 45.60,
+        image: "https://lh5.googleusercontent.com/p/AF1QipMtc-XQcOupE94QpEADu8rgNglQrb_5VQMlHbY6=w426-h240-k-no",
+        description: "A campground with a great view.",
+        location: "241050 Clearwater Dr, Calgary, AB T3Z 2V4",
+    },
+    {
+        name: "Calgary West Campground",
+        price: 22.20,
+        image: "https://lh5.googleusercontent.com/p/AF1QipOegOZBN_T6FXtTQ69WstIdszdqewJ37GZITf41=w480-h520-p-k-no",
+        description: "A fun place to camp with friends. Highly recommended!",
+        location: "221 101 St SW, Calgary, AB T3B 5T2",
+    },
+    {
+        name: "Gooseberry Campground",
+        price: 20.56,
+        image: "https://lh5.googleusercontent.com/p/AF1QipO4YSHTv4mvdeoLfjhCStasqW_aXRv2eVbjKk4Q=w408-h306-k-no",
+        description: "A great place to enjoy nature. Just beautiful!",
+        location: "AB-66, Bragg Creek, AB T0L 0K0",
+    },
+];
+
+var commentSeeds = [
+    {
+        text: "That place is really beautiful!",
+    },
+    {
+        text: "Wow, I really want to go there!",
+    },
+    {
+        text: "That looks amazing! I should check it out!",
+    },
+    {
+        text: "How are the hiking routes there?",
+    },
+    {
+        text: "My family and I would love to go there. It looks great.",
+    },
+];
+
+/**
+* @module bin/scripts/seeds/seed-all
+* @requires mongoose
+* @requires passport
+* @requires lib/models/user
+* @requires lib/models/campground
+* @requires lib/models/comment
+* @requires lib/models/notification
+*/
+async function seedAll() {
+    try {
+        console.log("seeding database");
+        await User.deleteMany({});
+        console.log("deleted users");
+        await Campground.deleteMany({});
+        console.log("deleted campgrounds");
+        await Comment.deleteMany({});
+        console.log("deleted comments");
+		await Notification.deleteMany({});
+		console.log("deleted notifications");
+        
+        // Add user to database
+        const userSeed = userSeeds[0];
+        let author = await User.findOne({username: userSeed.username});
+        for(const userSeed of userSeeds) {
+            const newUser = new User({
+                username: userSeed.username, 
+                firstName: userSeed.firstName, 
+                lastName: userSeed.lastName,
+                email: userSeed.email,
+                avatar: userSeed.avatar,
+                isAdmin: userSeed.isAdmin,
+            });
+            console.log("new user: " + newUser);
+            author = await User.register(newUser, userSeed.password);
+        };
+        
+        console.log("seeded users");
+        
+		
+		
+        commentIdx = 0;
+        // campgroundSeeds.forEach(async (campgroundSeed) => {
+		for(const campgroundSeed of campgroundSeeds) {
+			await (async () => {
+            // Create campground and comment using seeds
+            const campground = await Campground.create(campgroundSeed);
+			
+			await CampgroundController.setCampgroundLocData(campground);
+			
+            console.log("seeded campground");
+            // if (commentIdx &lt; commentSeeds.length) {
+                const comment = await Comment.create(commentSeeds[commentIdx++]);
+            //  }
+            console.log("seeded comment");
+            // Associate author with campground
+            campground.author.id = author._id;
+            campground.author.username = author.username;
+			
+			// Associate campground with author
+			await author.campgrounds.push(campground);
+			await author.save();
+
+            // Associate author with comment
+            comment.author.id = author._id;
+            comment.author.username = author.username;
+            await comment.save();
+
+            // Add comment to campground
+            await campground.comments.push(comment);
+            await campground.save();
+        	})()
+			.catch(err => console.log(err));
+		}
+        console.log("finished seeding");
+    }
+    catch(err) {
+        console.log(err);
+        console.trace();
+    }
+}
+
+module.exports = seedAll;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bin_errors_errors.html">bin/errors/errors</a></li><li><a href="module-bin_helpers_api_api-helper.html">bin/helpers/api/api-helper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper.html">bin/helpers/api/cloudinary-helper</a></li><li><a href="module-bin_helpers_api_geocoder-helper.html">bin/helpers/api/geocoder-helper</a></li><li><a href="module-bin_helpers_general_general-helper.html">bin/helpers/general/general-helper</a></li><li><a href="module-bin_helpers_slugs_slug.html">bin/helpers/slugs/slug</a></li><li><a href="module-bin_scripts_seeds_seed-all.html">bin/scripts/seeds/seed-all</a></li><li><a href="module-lib_app.html">lib/app</a></li><li><a href="module-lib_controllers_campground-controller.html">lib/controllers/campground-controller</a></li><li><a href="module-lib_controllers_comment-controller.html">lib/controllers/comment-controller</a></li><li><a href="module-lib_controllers_notification-controller.html">lib/controllers/notification-controller</a></li><li><a href="module-lib_controllers_user-controller.html">lib/controllers/user-controller</a></li><li><a href="module-lib_middleware_middleware.html">lib/middleware/middleware</a></li><li><a href="module-lib_middleware_mongoose_global-pre-hooks.html">lib/middleware/mongoose/global-pre-hooks</a></li><li><a href="module-lib_middleware_mongoose_mongoose-middleware.html">lib/middleware/mongoose/mongoose-middleware</a></li><li><a href="module-lib_models_campground.html">lib/models/campground</a></li><li><a href="module-lib_models_comment.html">lib/models/comment</a></li><li><a href="module-lib_models_notification.html">lib/models/notification</a></li><li><a href="module-lib_models_user.html">lib/models/user</a></li><li><a href="module-lib_routes_campgrounds.html">lib/routes/campgrounds</a></li><li><a href="module-lib_routes_comments.html">lib/routes/comments</a></li><li><a href="module-lib_routes_errors.html">lib/routes/errors</a></li><li><a href="module-lib_routes_index.html">lib/routes/index</a></li></ul><h3>Classes</h3><ul><li><a href="module-bin_errors_errors-APIResponseError.html">APIResponseError</a></li><li><a href="module-bin_errors_errors-CloudinaryResponseError.html">CloudinaryResponseError</a></li><li><a href="module-bin_errors_errors-ExtendedError.html">ExtendedError</a></li><li><a href="module-bin_errors_errors-InternalError.html">InternalError</a></li><li><a href="module-bin_errors_errors-NodeGeocoderResponseError.html">NodeGeocoderResponseError</a></li><li><a href="module-bin_errors_errors-ResourceNotFoundError.html">ResourceNotFoundError</a></li><li><a href="module-bin_helpers_api_api-helper-APIHelper.html">APIHelper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper-CloudinaryHelper.html">CloudinaryHelper</a></li><li><a href="module-bin_helpers_api_geocoder-helper-GeocoderHelper.html">GeocoderHelper</a></li><li><a href="module-bin_helpers_general_general-helper-GeneralHelper.html">GeneralHelper</a></li><li><a href="module-lib_controllers_campground-controller-CampgroundController.html">CampgroundController</a></li><li><a href="module-lib_controllers_comment-controller-CommentController.html">CommentController</a></li><li><a href="module-lib_controllers_notification-controller-NotificationController.html">NotificationController</a></li><li><a href="module-lib_controllers_user-controller-UserController.html">UserController</a></li><li><a href="module-lib_middleware_middleware-MiddlewareObj.html">MiddlewareObj</a></li></ul><h3>Global</h3><ul><li><a href="global.html#APIHelper">APIHelper</a></li><li><a href="global.html#async">async</a></li><li><a href="global.html#Campground">Campground</a></li><li><a href="global.html#CampgroundController">CampgroundController</a></li><li><a href="global.html#CloudinaryHelper">CloudinaryHelper</a></li><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#crypto">crypto</a></li><li><a href="global.html#DB_PROVIDER">DB_PROVIDER</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#GeneralHelper">GeneralHelper</a></li><li><a href="global.html#GeocoderHelper">GeocoderHelper</a></li><li><a href="global.html#middleware">middleware</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#multer">multer</a></li><li><a href="global.html#nodemailer">nodemailer</a></li><li><a href="global.html#Notification">Notification</a></li><li><a href="global.html#OPTIONS">OPTIONS</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#PROVIDER">PROVIDER</a></li><li><a href="global.html#seedAll">seedAll</a></li><li><a href="global.html#Slug">Slug</a></li><li><a href="global.html#staticProperties">staticProperties</a></li><li><a href="global.html#User">User</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 08 2020 17:59:55 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

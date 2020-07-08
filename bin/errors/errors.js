@@ -1,12 +1,11 @@
 /**
 * Module containing error classing to be thrown in different situations.
 * These error classes extend the stack trace of previously thrown errors.
-* @module errors
+* @module bin/errors/errors
 */
 
 /** 
 * Class representing an error that extends previously thrown errors.
-* @class
 * @extends Error
 * @author Jose Nicolas Mora
 */

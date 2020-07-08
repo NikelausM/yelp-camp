@@ -1,8 +1,23 @@
 // requiring environment variables
 require('dotenv').config();
 
-const   mongoose 		= require("mongoose"),
+const   
+		/**
+		 * mongoose module
+		 * @const
+		 */
+		mongoose 		= require("mongoose"),
+		/**
+		 * seed-all module
+		 * @const
+		 */
         seedAll         = require("./seed-all");
+
+/**
+* @requires mongoose
+* @requires seed-all
+* @author Jose Nicolas Mora
+*/
 
 // function seedAll() {
 // fix deprecation warnings for mongo db
