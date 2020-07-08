@@ -9,7 +9,12 @@ const
 		 * errors module
 		 * @const
 		 */
-		errors	= require("../../errors/errors");
+		errors	= require("../../errors/errors"),
+	  	/**
+		* node-geocoder module
+		* @const
+		*/
+	  	NodeGeocoder = require("node-geocoder");
 
 /**
 * @const
