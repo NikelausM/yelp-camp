@@ -20,7 +20,7 @@ const
 * @const
 * @default
 */
-const OPTIONS = {
+const CONFIG = {
 	provider: 'google',
 	httpAdapter: 'https',
 	apiKey: process.env.GEOCODER_API_KEY,
@@ -38,23 +38,23 @@ const OPTIONS = {
 class GeocoderHelper extends APIHelper {
 	/**
 	* Create an CloudinaryHelper.
-	* @param {Object=} options - The configuration settings for the cloudinary API.
-	* @param {string=} options.provider - The provider of Node Geocoder API.
-	* @param {string=} options.httpAdapter - The HTTP adapter of the Node Geocoder API.
-	* @param {string=} options.apiKey - The API key of the Google google geocoder API.
-	* @param {string=} options.formatter - The formatting of the Node geocoder response.
+	* @param {Object=} config - The configuration settings for the cloudinary API.
+	* @param {string=} config.provider - The provider of Node Geocoder API.
+	* @param {string=} config.httpAdapter - The HTTP adapter of the Node Geocoder API.
+	* @param {string=} config.apiKey - The API key of the Google google geocoder API.
+	* @param {string=} config.formatter - The formatting of the Node geocoder response.
 	*/
-	constructor(options = GeocoderHelper.defaultOptions) {
-		super({provider: options.provider});
-		this.geocoder = NodeGeocoder(options);
+	constructor(config = GeocoderHelper.defaultConfig) {
+		super({provider: config.provider});
+		this.geocoder = NodeGeocoder(config);
 	};
 	
 	/** 
-	* Returns the default node geocoder options.
-	* @return The default node geocoder options.
+	* Returns the default node geocoder configurations.
+	* @return The default node geocoder configurations.
 	*/
-	static get defaultOptions() {
-		return OPTIONS;
+	static get defaultConfig() {
+		return CONFIG;
 	}
 	
 	/** 
