@@ -220,3 +220,15 @@ body {
 .likesPill, img {
 	cursor: pointer;
 }
+
+.new-comment {
+	border-left: 5px solid #00C851; 
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.edit-comment {
+	border-left: 5px solid #ffbb33; 
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
