@@ -1,7 +1,7 @@
 # Yelp Camp
 
 ## Table of contents
-* [Introduction](#introduction)
+* [Introduction](window.location.href#introduction)
 * [Features](#features)
 * [Launch](#launch)
 * [Technologies](#technologies)
