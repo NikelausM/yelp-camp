@@ -27,8 +27,6 @@ My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https
 #### NPM packages
 - <strong> [Express ^4.17.1](https://expressjs.com/) </strong>
 - <strong> [Mongoose ^5.9.16](https://mongoosejs.com/) </strong>
-- [async] ^3.2.0](https://www.npmjs.com/package/async)
-  - asynchronous functions
 - [bcrypt ^4.0.1](https://www.npmjs.com/package/bcrypt)
   - For password encryption.
 - [bcrypt-nodejs 0.0.3]
@@ -58,7 +56,9 @@ My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https
   - For local username and password authentication strategy for passport.js.
 - [passport-local-mongoose ^6.0.1](https://www.npmjs.com/package/passport-local-mongoose)
   - Mongoose plugin for simplifying username/password authentication.
-
+- [async ^3.2.0](https://www.npmjs.com/package/async)
+  - For asynchronous functions before being replaced with async/await.
+  
 ### Front-end
 - <strong> [EJS ^3.1.3](https://www.npmjs.com/package/ejs) </strong>
   - Javascript templating engine used for building html pages.
