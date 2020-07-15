@@ -49,7 +49,7 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
   - Seperation of routes into [controller classes](https://github.com/NikelausM/yelp-camp/tree/master/lib/controllers) and [routes](https://github.com/NikelausM/yelp-camp/tree/master/lib/routes)
   - Improved mongoose middleware for models to resolve inter [model](https://github.com/NikelausM/yelp-camp/tree/master/lib/models) dependencies
   - [API helper classes](https://github.com/NikelausM/yelp-camp/tree/master/bin/helpers)
-  - [Custom stack trace extending error classes](https://github.com/NikelausM/yelp-camp/tree/master/bin/errors/errors)
+  - [Custom stack trace extending error classes](https://github.com/NikelausM/yelp-camp/blob/master/bin/errors/errors.js)
 - Front-end
   - Mobile responsive front end design
   - Landing page animations
