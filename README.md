@@ -9,6 +9,7 @@
 * [Certificate](#certificate)
 
 <h2 id="introduction">Introduction</h2>
+
 This is a repository of my (Jose Nicolas Mora) YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
 
 Check out my Github: <https://github.com/NikelausM/>
