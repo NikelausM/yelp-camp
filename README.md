@@ -85,6 +85,10 @@ You may use the following account to login:
 
 (note: it's read only, so you won't be able to edit/delete things)
 
+#### Deployment Diagram
+<p align="center"><img src="./yelp-camp-deployment-diagram.pdf"></p>
+
+
 ## Technologies
 ### Database
 - <strong> [MongoDB 4.0.18](https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=bing&utm_campaign=bs_americas_canada_search_brand_atlas_desktop&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=e&msclkid=48a2049cd3351ec1ff715b9250ce48fd) </strong>
