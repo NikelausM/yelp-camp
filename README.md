@@ -11,19 +11,33 @@ This is a repository of my YelpCamp project for the Udemy course, [The Web Devel
 
 ## Features
 YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a "like" system, and the users are able to talk about the campgrounds through a campground comment system.
+
 ### Key Features
-- 
-### Unique Features
-My YelpCamp project is heavily refactored to take advantage of (ES6 syntax) [https://www.ecma-international.org/ecma-262/6.0/index.html], including, but not limited to:
-- Classes (to make application more Object-Oriented)
-- Async/Await (to significantly reduce callbacks and ease asyncronous programming)
-- let and const (for increased control of scope)
-- etc.
+- Campground Search (Fuzzy)/Show/Edit/Delete
+- User Show/Edit
+- Liking Campgrounds
+- Comments on Campgrounds
+- Notifications
+- Authentication
+- Password reset with real emails
+- Pagination
+- Flash messages for showing helpful information to users
+- Meaningful error messages
+- Dynamic price feature
+- Visible Campground location with Google mini-map and marker
+
+### Added Features
+- Object Oriented Javascript Refactor
+  - My YelpCamp project is heavily refactored to take advantage of (ES6 syntax) [https://www.ecma-international.org/ecma-262/6.0/index.html], including, but not limited to:
+    - Classes (to make application more Object-Oriented)
+    - Async/Await (to significantly reduce callbacks and ease asyncronous programming)
+    - let and const (for increased control of scope)
+    - etc.
 
 Some other added features are:
 - Back-end
   - Extensive [documentation](./docs) using [JSDoc](https://jsdoc.app/).
-  - Seperation of routes into [Controller classes](./lib/controllers) and [routes](./lib/routes).
+  - Seperation of routes into [controller classes](./lib/controllers) and [routes](./lib/routes).
   - Improved mongoose middleware for models to resolve inter [model](./lib/models) dependencies.
   - [API helper classes](./bin/helpers).
   - [Custom stack trace extending error classes](./bin/errors/errors).
@@ -31,7 +45,7 @@ Some other added features are:
   - Mobile responsive front end design.
   - [Revamped profile page](./lib/views/users).
   - Increased modularity of view layouts and partials, best exemplified by the [comments views](./lib/view/comments).
- - Both
+- Both
   - Nested comments
 
 ## Launch
