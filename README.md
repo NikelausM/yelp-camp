@@ -2,14 +2,18 @@
 
 ## Table of contents
 * [Introduction](#introduction)
+* [Features](#features)
 * [Technologies](#technologies)
+* [Launch](#launch)
 
 ## Introduction
 This is a repository of my YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
 
+## Features
 YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a "like" system, and the users are able to talk about the campgrounds through a campground comment system.
-
-## Unique Features
+### Key Features
+- 
+### Unique Features
 My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https://www.ecma-international.org/ecma-262/6.0/index.html], including, but not limited to:
 - Classes (to make application more Object-Oriented)
 - Async/Await (to significantly reduce callbacks and ease asyncronous programming)
@@ -30,7 +34,11 @@ Some other added features are:
  - Both
   - Nested comments
 
-## Deployment
+## Launch
+### Setup
+> npm install https://github.com/NikelausM/yelp-camp/
+
+### Deployment
 This application is deployed as a read-only version to the following link: https://yelp-camp-nikelausm.herokuapp.com/
 
 ## Technologies
@@ -40,7 +48,10 @@ This application is deployed as a read-only version to the following link: https
 
 ### Back-end
 - <strong> [Node.js: 14.4.0](https://nodejs.org/en/) </strong>
+  - JavaScript runtime built on Chrome's V8 JavaScript engine.
 - <strong> [npm 6.14.5](https://www.npmjs.com/) </strong>
+  - Node Package Manager (like a Javascript dependency manager).
+  - It allows you to easily install 3rd party Javascript Node.js libraries.
 
 #### NPM packages
 - <strong> [Express ^4.17.1](https://expressjs.com/) </strong>
@@ -84,6 +95,7 @@ This application is deployed as a read-only version to the following link: https
   - Open source CSS framework used for creating responsive mobile-first web pages.
 - [Font Awesome](https://fontawesome.com/)
   - For icons.
+#### Other NPM packages used for Front-end
 - [uuid ^8.2.0](https://www.npmjs.com/package/uuid)
   - For creating Universally Unique ID's.
 - [moment ^2.26.0](https://www.npmjs.com/package/moment)
