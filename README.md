@@ -3,7 +3,6 @@
 ## Table of contents
 * [Introduction](#introduction)
 * [Technologies](#technologies)
-* [Certificate of Completion](#certificate-of-completion)
 
 ## Introduction
 This is a repository of my YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
@@ -15,6 +14,8 @@ My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https
 - Async/Await (to significantly reduce callbacks and ease asyncronous programming)
 - let and const (for increased control of scope)
 - etc.
+
+This application is deployed as a read-only version to the following link: [https://yelp-camp-nikelausm.herokuapp.com/](https://yelp-camp-nikelausm.herokuapp.com/)
 
 ## Technologies
 ### Database
