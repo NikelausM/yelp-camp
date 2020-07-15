@@ -150,5 +150,8 @@ You may use the following account to login:
 - [moment ^2.26.0](https://www.npmjs.com/package/moment)
   - For setting and displaying dates.
   
+## Documentation
+Check out the documentation for this project: https://nikelausm.github.io/yelp-camp/
+
 ## Certificate
 <p align="center"><img src="https://github.com/NikelausM/yelp-camp/blob/master/web-developer-bootcamp-certificate.jpg?raw=true"></p>
