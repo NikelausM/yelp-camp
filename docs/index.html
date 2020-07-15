@@ -42,6 +42,169 @@
 
 
 
+    <section>
+        <article><h1>Yelp Camp</h1>
+<h2>Table of contents</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#technologies">Technologies</a></li>
+</ul>
+<h2>Introduction</h2>
+<p>This is a repository of my YelpCamp project for the Udemy course, <a href="https://www.udemy.com/course/the-web-developer-bootcamp/">The Web Developer Bootcamp</a>.</p>
+<p>YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a &quot;like&quot; system, and the users are able to talk about the campgrounds through a campground comment system.</p>
+<h2>Unique Features</h2>
+<p>My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https://www.ecma-international.org/ecma-262/6.0/index.html], including, but not limited to:</p>
+<ul>
+<li>Classes (to make application more Object-Oriented)</li>
+<li>Async/Await (to significantly reduce callbacks and ease asyncronous programming)</li>
+<li>let and const (for increased control of scope)</li>
+<li>etc.</li>
+</ul>
+<p>Some other added features are:</p>
+<ul>
+<li>Back-end
+<ul>
+<li>Extensive <a href="./docs">documentation</a> using <a href="https://jsdoc.app/">JSDoc</a>.</li>
+<li>Seperation of routes into <a href="./lib/controllers">Controller classes</a> and <a href="./lib/routes">routes</a>.</li>
+<li>Improved mongoose middleware for models to resolve inter <a href="./lib/models">model</a> dependencies.</li>
+<li><a href="./bin/helpers">API helper classes</a>.</li>
+<li><a href="./bin/errors/errors">Custom stack trace extending error classes</a>.</li>
+</ul>
+</li>
+<li>Front-end
+<ul>
+<li>Mobile responsive front end design.</li>
+<li><a href="./lib/views/users">Revamped profile page</a>.</li>
+<li>Increased modularity of view layouts and partials, best exemplified by the <a href="./lib/view/comments">comments views</a>.</li>
+</ul>
+</li>
+<li>Both</li>
+<li>Nested comments</li>
+</ul>
+<h2>Deployment</h2>
+<p>This application is deployed as a read-only version to the following link: https://yelp-camp-nikelausm.herokuapp.com/</p>
+<h2>Technologies</h2>
+<h3>Database</h3>
+<ul>
+<li><strong> <a href="https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=bing&amp;utm_campaign=bs_americas_canada_search_brand_atlas_desktop&amp;utm_term=mongodb&amp;utm_medium=cpc_paid_search&amp;utm_ad=e&amp;msclkid=48a2049cd3351ec1ff715b9250ce48fd">MongoDB 4.0.18</a> </strong>
+<ul>
+<li>For storing data in a NoSQL database.</li>
+</ul>
+</li>
+</ul>
+<h3>Back-end</h3>
+<ul>
+<li><strong> <a href="https://nodejs.org/en/">Node.js: 14.4.0</a> </strong></li>
+<li><strong> <a href="https://www.npmjs.com/">npm 6.14.5</a> </strong></li>
+</ul>
+<h4>NPM packages</h4>
+<ul>
+<li><strong> <a href="https://expressjs.com/">Express ^4.17.1</a> </strong></li>
+<li><strong> <a href="https://mongoosejs.com/">Mongoose ^5.9.16</a> </strong></li>
+<li><a href="https://www.npmjs.com/package/bcrypt">bcrypt ^4.0.1</a>
+<ul>
+<li>For password encryption.</li>
+</ul>
+</li>
+<li>[bcrypt-nodejs 0.0.3]</li>
+<li><a href="https://www.npmjs.com/package/body-parser">body-parser ^1.19.0</a>
+<ul>
+<li>For parsing request bodies.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/cloudinary">cloudinary ^1.21.0</a>
+<ul>
+<li>For using the <a href="https://cloudinary.com/">Cloudinary API</a> to store images on the cloud.</li>
+<li>I created a <a href="./bin/helpers/api/cloudinary-helper.js">wrapper class for this module</a> to improve error handling.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/connect-flash">connect-flash ^0.1.1</a>
+<ul>
+<li>For flash messages.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/dotenv">dotenv ^8.2.0</a>
+<ul>
+<li>For environment variables.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/express-session">express-session ^1.17.1</a>
+<ul>
+<li>For storing session data.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/method-override">method-override ^3.0.0</a>
+<ul>
+<li>For overriding HTTP verbs.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/multer">multer ^1.4.2</a>
+<ul>
+<li>For handling multipart/form-data</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/node-geocoder">node-geocoder ^3.27.0</a>
+<ul>
+<li>For using the <a href="https://developers.google.com/maps/documentation/geocoding/intro">Google Geocoding API</a> to convert addresses to coordinates.</li>
+<li>I created a <a href="./bin/helpers/api/geocoder-helper.js">wrapper class for this module</a> to improve error handling.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/nodemailer">nodemailer ^6.4.8</a>
+<ul>
+<li>For sending emails, such as for resetting a password.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/passport">passport ^0.4.1</a>
+<ul>
+<li>For authentication.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/passport-local">passport-local ^1.0.0</a>
+<ul>
+<li>For local username and password authentication strategy for passport.js.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/passport-local-mongoose">passport-local-mongoose ^6.0.1</a>
+<ul>
+<li>Mongoose plugin for simplifying username/password authentication.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/async">async ^3.2.0</a>
+<ul>
+<li>For asynchronous functions before being replaced with async/await.</li>
+</ul>
+</li>
+</ul>
+<h3>Front-end</h3>
+<ul>
+<li><strong> <a href="https://ejs.co/">EJS ^3.1.3</a> </strong>
+<ul>
+<li>Javascript templating engine used for building html pages.</li>
+</ul>
+</li>
+<li><strong> <a href="https://getbootstrap.com/">Bootstrap 4.5.0</a> </strong>
+<ul>
+<li>Open source CSS framework used for creating responsive mobile-first web pages.</li>
+</ul>
+</li>
+<li><a href="https://fontawesome.com/">Font Awesome</a>
+<ul>
+<li>For icons.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/uuid">uuid ^8.2.0</a>
+<ul>
+<li>For creating Universally Unique ID's.</li>
+</ul>
+</li>
+<li><a href="https://www.npmjs.com/package/moment">moment ^2.26.0</a>
+<ul>
+<li>For setting and displaying dates.</li>
+</ul>
+</li>
+</ul></article>
+    </section>
+
 
 
 
@@ -56,7 +219,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 15 2020 14:48:13 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 15 2020 15:13:42 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
