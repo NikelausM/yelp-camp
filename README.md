@@ -86,7 +86,7 @@ You may use the following account to login:
 (note: it's read only, so you won't be able to edit/delete things)
 
 #### Deployment Diagram
-<p align="center"><img src="./yelp-camp-deployment-diagram.png"></p>
+<p align="center"><img src="https://github.com/NikelausM/yelp-camp/blob/master/yelp-camp-deployment-diagram.png?raw=trueg"></p>
 
 
 ## Technologies
@@ -150,4 +150,4 @@ You may use the following account to login:
   - For setting and displaying dates.
   
 ## Certificate
-<p align="center"><img src="./web-developer-bootcamp-certificate.jpg"></p>
+<p align="center"><img src="https://github.com/NikelausM/yelp-camp/blob/master/web-developer-bootcamp-certificate.jpg?raw=true"></p>
