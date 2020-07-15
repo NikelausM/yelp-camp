@@ -1,4 +1,4 @@
-<h1><i class="fas fa-campground"></i> Yelp Camp<h1>
+<h1> <i class="fas fa-campground"></i> Yelp Camp<h1>
   
 <h2 id="tabl-of-contents">Table of contents</h2>
 
