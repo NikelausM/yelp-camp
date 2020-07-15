@@ -146,4 +146,4 @@ You may use the following account to login:
   - For setting and displaying dates.
   
 ## Certificate
-<p align="center"><img src="./Certificate_of_Completion.jpg"></p>
+<p align="center"><img src="./web-developer-bootcamp-certificate.jpg"></p>
