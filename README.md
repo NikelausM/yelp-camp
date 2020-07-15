@@ -9,6 +9,7 @@
 * [Certificate](#certificate)
 
 <h2 id="introduction">Introduction<h2>
+
 This is a repository of my (Jose Nicolas Mora) YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
 
 Check out my Github: <https://github.com/NikelausM/>
@@ -16,6 +17,7 @@ Check out my Github: <https://github.com/NikelausM/>
 Check out my LinkedIn: <https://linkedin.com/in/nicolas-mora-a54245105>
 
 <h2 id="features">Features<h2>
+
 YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a "like" system, and the users are able to talk about the campgrounds through a campground comment system.
 
 ### Key Features
@@ -62,6 +64,7 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
   - Increased modularity of view layouts and partials, best exemplified by the [comments views](https://github.com/NikelausM/yelp-camp/tree/master/lib/view/comments)
     - Even more meaningful dynamic error messages
 <h2 id="launch">Launch<h2>
+
 ### Setup
 To install:
 ```
@@ -150,7 +153,9 @@ You may use the following account to login:
   - For setting and displaying dates.
   
 <h2 id="documentation">Documentation<h2>
+
 Check out the documentation for this project: <https://nikelausm.github.io/yelp-camp/>
 
 <h2 id="certificate">Certificate<h2>
+
 <p align="center"><img src="https://github.com/NikelausM/yelp-camp/blob/master/web-developer-bootcamp-certificate.jpg?raw=true"></p>
