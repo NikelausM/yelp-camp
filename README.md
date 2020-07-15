@@ -11,7 +11,7 @@ This is a repository of my (Jose Nicolas Mora) YelpCamp project for the Udemy co
 
 Check out my Github: https://github.com/NikelausM/
 
-Check out my LinkedIn: linkedin.com/in/nicolas-mora-a54245105
+Check out my LinkedIn: www.linkedin.com/in/nicolas-mora-a54245105
 
 ## Features
 YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a "like" system, and the users are able to talk about the campgrounds through a campground comment system.
