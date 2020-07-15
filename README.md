@@ -60,7 +60,7 @@ My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https
   - For asynchronous functions before being replaced with async/await.
   
 ### Front-end
-- <strong> [EJS ^3.1.3](https://www.npmjs.com/package/ejs) </strong>
+- <strong> [EJS ^3.1.3](https://ejs.co/) </strong>
   - Javascript templating engine used for building html pages.
 - <strong> [Bootstrap 4.5.0](https://getbootstrap.com/) </strong>
   - Open source CSS framework used for creating responsive mobile-first web pages.
