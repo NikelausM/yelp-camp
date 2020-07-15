@@ -18,7 +18,8 @@ My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https
 
 ## Technologies
 ### Database
-- <strong> MongoDB 4.0.18 </strong>
+- <strong> [MongoDB 4.0.18](https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=bing&utm_campaign=bs_americas_canada_search_brand_atlas_desktop&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=e&msclkid=48a2049cd3351ec1ff715b9250ce48fd) </strong>
+  - For storing data in a NoSQL database.
 
 ### Back-end
 - <strong> [Node.js: 14.4.0](https://nodejs.org/en/) </strong>
