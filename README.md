@@ -66,6 +66,8 @@ This application is deployed as a read-only version to the following link: https
   - Javascript templating engine used for building html pages.
 - <strong> [Bootstrap 4.5.0](https://getbootstrap.com/) </strong>
   - Open source CSS framework used for creating responsive mobile-first web pages.
+- [Font Awesome](https://fontawesome.com/)
+  - For icons.
 - [uuid ^8.2.0](https://www.npmjs.com/package/uuid)
   - For creating Universally Unique ID's.
 - [moment ^2.26.0](https://www.npmjs.com/package/moment)
