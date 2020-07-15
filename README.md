@@ -27,7 +27,7 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
 ### Added Features
 - General
   - Object Oriented Javascript Refactor
-    - My YelpCamp project is heavily refactored to take advantage of (ES6 syntax) [https://www.ecma-international.org/ecma-262/6.0/index.html], including:
+    - My YelpCamp project is heavily refactored to take advantage of [ES6 syntax] (https://www.ecma-international.org/ecma-262/6.0/index.html), including:
       - Classes (to make application more Object-Oriented)
       - Async/Await (to significantly reduce callbacks and ease asyncronous programming)
       - let and const (for increased control of scope)
