@@ -8,7 +8,8 @@
 * [Documentation](#documentation)
 * [Certificate](#certificate)
 
-<h2 id="introduction">Introduction</h2> 
+<h2 id="introduction">Introduction</h2>
+
 This is a repository of my (Jose Nicolas Mora) YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
 
 Check out my Github: <https://github.com/NikelausM/>
@@ -16,6 +17,7 @@ Check out my Github: <https://github.com/NikelausM/>
 Check out my LinkedIn: <https://linkedin.com/in/nicolas-mora-a54245105>
 
 <h2 id="features">Features</h2>
+
 YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a "like" system, and the users are able to talk about the campgrounds through a campground comment system.
 
 ### Key Features
@@ -91,6 +93,7 @@ You may use the following account to login:
 
 
 <h2 id="technologies">Technologies</h2>
+
 ### Database
 - <strong> [MongoDB 4.0.18](https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=bing&utm_campaign=bs_americas_canada_search_brand_atlas_desktop&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=e&msclkid=48a2049cd3351ec1ff715b9250ce48fd) </strong>
   - For storing data in a NoSQL database.
