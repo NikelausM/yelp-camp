@@ -26,34 +26,34 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
 
 ### Added Features
 - General
-  - Object Oriented Javascript Refactor.
+  - Object Oriented Javascript Refactor
     - My YelpCamp project is heavily refactored to take advantage of (ES6 syntax) [https://www.ecma-international.org/ecma-262/6.0/index.html], including:
       - Classes (to make application more Object-Oriented)
       - Async/Await (to significantly reduce callbacks and ease asyncronous programming)
       - let and const (for increased control of scope)
-      - etc.
-  - Nested comments.
-  - Pagination.
-  - Flash messages for showing helpful information to users.
-  - Meaningful error messages.
-  - Dynamic price feature.
+      - etc
+  - Nested comments
+  - Pagination
+  - Flash messages for showing helpful information to users
+  - Meaningful error messages
+  - Dynamic price feature
 - Back-end
-  - Extensive [documentation](./docs) using [JSDoc](https://jsdoc.app/).
-  - Seperation of routes into [controller classes](./lib/controllers) and [routes](./lib/routes).
-  - Improved mongoose middleware for models to resolve inter [model](./lib/models) dependencies.
-  - [API helper classes](./bin/helpers).
-  - [Custom stack trace extending error classes](./bin/errors/errors).
+  - Extensive [documentation](./docs) using [JSDoc](https://jsdoc.app/)
+  - Seperation of routes into [controller classes](./lib/controllers) and [routes](./lib/routes)
+  - Improved mongoose middleware for models to resolve inter [model](./lib/models) dependencies
+  - [API helper classes](./bin/helpers)
+  - [Custom stack trace extending error classes](./bin/errors/errors)
 - Front-end
-  - Mobile responsive front end design.
-  - Landing page animations.
-  - Wrapper class for wrapping models used in [View](./lib/views) files to de-couple [Model](./lib/models) (database) from [View](./lib/views).
-    - This allows a developer to use the same wrapper class in the views for any model, regardless of complexity.
-    - This increases encapsulation of models used in views.
-  - Modals for seing how liked which campgrounds.
-  - Modals for enlarging images.
-  - [Revamped profile page](./lib/views/users).
-  - Increased modularity of view layouts and partials, best exemplified by the [comments views](./lib/view/comments).
-    - Even more meaningful dynamic error messages.
+  - Mobile responsive front end design
+  - Landing page animations
+  - Wrapper class for wrapping models used in [View](./lib/views) files to de-couple [Model](./lib/models) (database) from [View](./lib/views)
+    - This allows a developer to use the same wrapper class in the views for any model, regardless of complexity
+    - This increases encapsulation of models used in views
+  - Modals for seing how liked which campgrounds
+  - Modals for enlarging images
+  - [Revamped profile page](./lib/views/users)
+  - Increased modularity of view layouts and partials, best exemplified by the [comments views](./lib/view/comments)
+    - Even more meaningful dynamic error messages
 
 ## Launch
 ### Setup
