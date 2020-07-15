@@ -1,7 +1,6 @@
 <h1> <i class="fas fa-campground"></i> Yelp Camp<h1>
   
-<h2 id="tabl-of-contents">Table of contents</h2>
-
+<h2 id="table-of-contents">Table of contents</h2>
 * [Introduction](#introduction)
 * [Features](#features)
 * [Launch](#launch)
