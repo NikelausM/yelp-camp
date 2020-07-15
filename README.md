@@ -9,12 +9,28 @@ This is a repository of my YelpCamp project for the Udemy course, [The Web Devel
 
 YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a "like" system, and the users are able to talk about the campgrounds through a campground comment system.
 
+## Unique Features
 My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https://www.ecma-international.org/ecma-262/6.0/index.html], including, but not limited to:
 - Classes (to make application more Object-Oriented)
 - Async/Await (to significantly reduce callbacks and ease asyncronous programming)
 - let and const (for increased control of scope)
 - etc.
 
+Some other added features are:
+- Back-end
+  - Extensive [documentation](./docs) using [JSDoc](https://jsdoc.app/).
+  - Seperation of routes into [Controller classes](./lib/controllers) and [routes](./lib/routes).
+  - Improved mongoose middleware for models to resolve inter [model](./lib/models) dependencies.
+  - [API helper classes](./bin/helpers).
+  - [Custom stack trace extending error classes](./bin/errors/errors).
+- Front-end
+  - Mobile responsive front end design.
+  - [Revamped profile page](./lib/views/users).
+  - Increased modularity of view layouts and partials, best exemplified by the [comments views](./lib/view/comments).
+ - Both
+  - Nested comments
+
+## Deployment
 This application is deployed as a read-only version to the following link: https://yelp-camp-nikelausm.herokuapp.com/
 
 ## Technologies
