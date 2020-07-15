@@ -58,11 +58,17 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
 ## Launch
 ### Setup
 To install:
-`npm install https://github.com/NikelausM/yelp-camp/`
+```
+npm install https://github.com/NikelausM/yelp-camp/
+```
 To run:
-`node ./lib/app.js`
+```
+node ./lib/app.js
+```
 To run and preserve asynchronous stack traces.
-` node ./lib/app.js --async-stack-trace`
+```
+node ./lib/app.js --async-stack-trace
+```
 
 ### Deployment
 This application is deployed as a read-only version to the following link: https://yelp-camp-nikelausm.herokuapp.com/
