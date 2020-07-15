@@ -8,14 +8,14 @@
 * [Documentation](#documentation)
 * [Certificate](#certificate)
 
-## Introduction
+<h2 id="introduction">Introduction<h2>
 This is a repository of my (Jose Nicolas Mora) YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
 
 Check out my Github: <https://github.com/NikelausM/>
 
 Check out my LinkedIn: <https://linkedin.com/in/nicolas-mora-a54245105>
 
-## Features
+<h2 id="features">Features<h2>
 YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a "like" system, and the users are able to talk about the campgrounds through a campground comment system.
 
 ### Key Features
@@ -61,8 +61,7 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
   - [Revamped profile page](https://github.com/NikelausM/yelp-camp/tree/master/lib/views/users)
   - Increased modularity of view layouts and partials, best exemplified by the [comments views](https://github.com/NikelausM/yelp-camp/tree/master/lib/view/comments)
     - Even more meaningful dynamic error messages
-
-## Launch
+<h2 id="launch">Launch<h2>
 ### Setup
 To install:
 ```
@@ -90,7 +89,7 @@ You may use the following account to login:
 <p align="center"><img src="https://github.com/NikelausM/yelp-camp/blob/master/yelp-camp-deployment-diagram.png?raw=trueg"></p>
 
 
-## Technologies
+<h2 id="technologies">Technologies<h2>
 ### Database
 - <strong> [MongoDB 4.0.18](https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=bing&utm_campaign=bs_americas_canada_search_brand_atlas_desktop&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=e&msclkid=48a2049cd3351ec1ff715b9250ce48fd) </strong>
   - For storing data in a NoSQL database.
@@ -150,8 +149,8 @@ You may use the following account to login:
 - [moment ^2.26.0](https://www.npmjs.com/package/moment)
   - For setting and displaying dates.
   
-## Documentation
+<h2 id="documentation">Documentation<h2>
 Check out the documentation for this project: <https://nikelausm.github.io/yelp-camp/>
 
-## Certificate
+<h2 id="certificate">Certificate<h2>
 <p align="center"><img src="https://github.com/NikelausM/yelp-camp/blob/master/web-developer-bootcamp-certificate.jpg?raw=true"></p>
