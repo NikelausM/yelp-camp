@@ -11,8 +11,8 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
 
 ## Technologies
 ### Back-end
-#### - Node.js:  14.4.0
-#### - Express ^4.17.1,
+- Node.js:  14.4.0
+- Express ^4.17.1,
 - async ^3.2.0,
 - bcrypt ^4.0.1,
 - bcrypt-nodejs 0.0.3,
@@ -31,7 +31,7 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
 - passport-local-mongoose ^6.0.1,
 
 ### Front-end
-#### - EJS ^3.1.3,
+- EJS ^3.1.3,
 - uuid ^8.2.0
 - moment ^2.26.0,
 - Bootstrap 4.5.0
