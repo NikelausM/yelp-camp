@@ -1,7 +1,7 @@
 # Yelp Camp
 
 ## Table of contents
-* [Introduction](window.location.href#introduction)
+* [Introduction](#introduction)
 * [Features](#features)
 * [Launch](#launch)
 * [Technologies](#technologies)
@@ -11,9 +11,9 @@
 ## Introduction
 This is a repository of my (Jose Nicolas Mora) YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
 
-Check out my Github: https://github.com/NikelausM/
+Check out my Github: <https://github.com/NikelausM/>
 
-Check out my LinkedIn: www.linkedin.com/in/nicolas-mora-a54245105
+Check out my LinkedIn: <www.linkedin.com/in/nicolas-mora-a54245105>
 
 ## Features
 YelpCamp is a yelp style, campground themed website. It allows for users to browse and search campgrounds that the community adds. The campgrounds are rated using a "like" system, and the users are able to talk about the campgrounds through a campground comment system.
@@ -151,7 +151,7 @@ You may use the following account to login:
   - For setting and displaying dates.
   
 ## Documentation
-Check out the documentation for this project: https://nikelausm.github.io/yelp-camp/
+Check out the documentation for this project: <https://nikelausm.github.io/yelp-camp/>
 
 ## Certificate
 <p align="center"><img src="https://github.com/NikelausM/yelp-camp/blob/master/web-developer-bootcamp-certificate.jpg?raw=true"></p>
