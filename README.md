@@ -15,7 +15,7 @@ My YelpCamp project is heavily refactored to take advantage of ES6 syntax [https
 - let and const (for increased control of scope)
 - etc.
 
-This application is deployed as a read-only version to the following link: [https://yelp-camp-nikelausm.herokuapp.com/](https://yelp-camp-nikelausm.herokuapp.com/)
+This application is deployed as a read-only version to the following link: https://yelp-camp-nikelausm.herokuapp.com/
 
 ## Technologies
 ### Database
