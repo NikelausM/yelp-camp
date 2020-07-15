@@ -86,7 +86,7 @@ You may use the following account to login:
 (note: it's read only, so you won't be able to edit/delete things)
 
 #### Deployment Diagram
-<p align="center"><img src="./yelp-camp-deployment-diagram.pdf"></p>
+<p align="center"><img src="./yelp-camp-deployment-diagram.png"></p>
 
 
 ## Technologies
