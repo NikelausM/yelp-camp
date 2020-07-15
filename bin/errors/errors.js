@@ -1,5 +1,5 @@
 /**
-* Module containing error classing to be thrown in different situations.
+* Module containing error classes to be thrown in different situations.
 * These error classes extend the stack trace of previously thrown errors.
 * @module bin/errors/errors
 */

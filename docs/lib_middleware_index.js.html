@@ -51,6 +51,11 @@ const
 		 */
 	  	Comment				= require("../models/comment");
 
+/**
+@const
+@default
+*/
+const DB_PROVIDER = "MongoDB";
 
 /**
 * Middleware module. Contains general middleware functions.
@@ -113,29 +118,37 @@ class MiddlewareObj {
 	* @param {Function} next - The next middleware function.
 	*/
 	static async checkCampgroundOwnership(req, res, next) {
-		// is user logged in
-		if(req.isAuthenticated()) {
-			// Campground.findById(req.params.id, (err, foundCampground) => {
-			Campground.findOne({slug: req.params.slug}, (err, foundCampground) => {
-				if(err || !foundCampground) {
-					req.flash("error", "Campground not found.");
-					return res.redirect("back");
+		try {
+			// is user logged in
+			if(req.isAuthenticated()) {
+				// Campground.findById(req.params.id, (err, foundCampground) => {
+				const query = {slug: req.params.slug};
+				let campground = await Campground.findOne(query)
+									.populate("author");
+				if(!campground) {
+					const data = {provider: DB_PROVIDER, query: query, resource: Campground.schema.COLLECTION_NAME};
+					throw new errors.ResourceNotFoundError({error: {message: `Unable to find ${data.resource}`}, data: data});
+				}
+				// does user own the campground
+				if(campground.author._id.equals(req.user._id) || req.user.isAdmin) {
+					next()
 				}
 				else {
-					// does user own the campground
-					if(foundCampground.author.id.equals(req.user._id) || req.user.isAdmin) {
-						next()
-					}
-					else {
-						req.flash("error", "You don't have permission to do that!");
-						return res.redirect("back");
-					}
+					req.flash("error", "You don't have permission to do that!");
+					return res.redirect("back");
 				}
-			});
-		} else {
-			req.flash("error", "You need to be logged in to do that!");
+			} else {
+				req.flash("error", "You need to be logged in to do that!");
+				return res.redirect("back");
+			}
+		}
+		catch(err) {
+			req.flash("error", err.message);
+			err = new errors.InternalError({errorCause: err});
+			console.log(err);
 			return res.redirect("back");
 		}
+
 	}
 
 	/**
@@ -145,28 +158,31 @@ class MiddlewareObj {
 	* @param {Function} next - The next middleware function.
 	*/
 	static async checkCommentOwnership (req, res, next) {
-		// is user logged in
-		if(req.isAuthenticated()) {
-			Comment.findById(req.params.comment_id, (err, foundComment) => {
-				if(err || !foundComment) {
-					req.flash("error", "Comment not found!");
-					return res.redirect("back");
-				}
-				else {				
-					// does user own the comment
-					console.log(foundComment.author.id); // mongoose object
-					console.log(req.user._id); // string
-					if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin) {
-						next()
-					}
-					else {
-						req.flash("error", "You don't have permission to do that!");
-						return res.redirect("back");
-					}
-				}
-			});
-		} else {
-			req.flash("error", "You need to be logged in to do that!");
+		try {
+			// is user logged in
+			const query = {_id: req.params.comment_id};
+			let comment = await Comment.findOne(query)
+								.populate("author");
+			if(!comment) {
+				const data = {provider: DB_PROVIDER, query: query, 
+							  resource: Comment.schema.COLLECTION_NAME};
+				throw new errors.ResourceNotFoundError(
+					{error: {message: `Unable to find ${data.resource}`}, 
+					 data: data}
+				);
+			}
+			if(comment.author._id.equals(req.user._id) || req.user.isAdmin) {
+				next()
+			}
+			else {
+				req.flash("error", "You don't have permission to do that!");
+				return res.redirect("back");
+			}
+		}
+		catch(err) {
+			req.flash("error", err.message);
+			err = new errors.InternalError({errorCause: err});
+			console.log(err);
 			return res.redirect("back");
 		}
 	}
@@ -178,10 +194,18 @@ class MiddlewareObj {
 	* @param {Function} next - The next middleware function.
 	*/
 	static async isLoggedIn (req, res, next) {
-		if(req.isAuthenticated()) {
-			return next();
+		try {
+			if(req.isAuthenticated()) {
+				return next();
+			}
+			req.flash("error", "You need to be logged in to do that!");
 		}
-		req.flash("error", "You need to be logged in to do that!"); // gives us capability of accessing this in next request
+		catch(err) {
+			req.flash("error", err.message);
+			err = new errors.InternalError({errorCause: err});
+			console.log(err);
+			return res.redirect("back");
+		}
 		return res.redirect("/login");
 	}
 }
@@ -197,13 +221,13 @@ module.exports = MiddlewareObj;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bin_errors_errors.html">bin/errors/errors</a></li><li><a href="module-bin_helpers_api_api-helper.html">bin/helpers/api/api-helper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper.html">bin/helpers/api/cloudinary-helper</a></li><li><a href="module-bin_helpers_api_geocoder-helper.html">bin/helpers/api/geocoder-helper</a></li><li><a href="module-bin_helpers_general_general-helper.html">bin/helpers/general/general-helper</a></li><li><a href="module-bin_helpers_slugs_slug.html">bin/helpers/slugs/slug</a></li><li><a href="module-bin_scripts_seeds_seed-all.html">bin/scripts/seeds/seed-all</a></li><li><a href="module-lib_app.html">lib/app</a></li><li><a href="module-lib_controllers_campground-controller.html">lib/controllers/campground-controller</a></li><li><a href="module-lib_controllers_comment-controller.html">lib/controllers/comment-controller</a></li><li><a href="module-lib_controllers_notification-controller.html">lib/controllers/notification-controller</a></li><li><a href="module-lib_controllers_user-controller.html">lib/controllers/user-controller</a></li><li><a href="module-lib_middleware_middleware.html">lib/middleware/middleware</a></li><li><a href="module-lib_middleware_mongoose_global-pre-hooks.html">lib/middleware/mongoose/global-pre-hooks</a></li><li><a href="module-lib_middleware_mongoose_mongoose-middleware.html">lib/middleware/mongoose/mongoose-middleware</a></li><li><a href="module-lib_models_campground.html">lib/models/campground</a></li><li><a href="module-lib_models_comment.html">lib/models/comment</a></li><li><a href="module-lib_models_notification.html">lib/models/notification</a></li><li><a href="module-lib_models_user.html">lib/models/user</a></li><li><a href="module-lib_routes_campgrounds.html">lib/routes/campgrounds</a></li><li><a href="module-lib_routes_comments.html">lib/routes/comments</a></li><li><a href="module-lib_routes_errors.html">lib/routes/errors</a></li><li><a href="module-lib_routes_index.html">lib/routes/index</a></li></ul><h3>Classes</h3><ul><li><a href="module-bin_errors_errors-APIResponseError.html">APIResponseError</a></li><li><a href="module-bin_errors_errors-CloudinaryResponseError.html">CloudinaryResponseError</a></li><li><a href="module-bin_errors_errors-ExtendedError.html">ExtendedError</a></li><li><a href="module-bin_errors_errors-InternalError.html">InternalError</a></li><li><a href="module-bin_errors_errors-NodeGeocoderResponseError.html">NodeGeocoderResponseError</a></li><li><a href="module-bin_errors_errors-ResourceNotFoundError.html">ResourceNotFoundError</a></li><li><a href="module-bin_helpers_api_api-helper-APIHelper.html">APIHelper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper-CloudinaryHelper.html">CloudinaryHelper</a></li><li><a href="module-bin_helpers_api_geocoder-helper-GeocoderHelper.html">GeocoderHelper</a></li><li><a href="module-bin_helpers_general_general-helper-GeneralHelper.html">GeneralHelper</a></li><li><a href="module-lib_controllers_campground-controller-CampgroundController.html">CampgroundController</a></li><li><a href="module-lib_controllers_comment-controller-CommentController.html">CommentController</a></li><li><a href="module-lib_controllers_notification-controller-NotificationController.html">NotificationController</a></li><li><a href="module-lib_controllers_user-controller-UserController.html">UserController</a></li><li><a href="module-lib_middleware_middleware-MiddlewareObj.html">MiddlewareObj</a></li></ul><h3>Global</h3><ul><li><a href="global.html#APIHelper">APIHelper</a></li><li><a href="global.html#async">async</a></li><li><a href="global.html#Campground">Campground</a></li><li><a href="global.html#CampgroundController">CampgroundController</a></li><li><a href="global.html#CloudinaryHelper">CloudinaryHelper</a></li><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#crypto">crypto</a></li><li><a href="global.html#DB_PROVIDER">DB_PROVIDER</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#GeneralHelper">GeneralHelper</a></li><li><a href="global.html#GeocoderHelper">GeocoderHelper</a></li><li><a href="global.html#middleware">middleware</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#multer">multer</a></li><li><a href="global.html#nodemailer">nodemailer</a></li><li><a href="global.html#Notification">Notification</a></li><li><a href="global.html#OPTIONS">OPTIONS</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#PROVIDER">PROVIDER</a></li><li><a href="global.html#seedAll">seedAll</a></li><li><a href="global.html#Slug">Slug</a></li><li><a href="global.html#staticProperties">staticProperties</a></li><li><a href="global.html#User">User</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bin_errors_errors.html">bin/errors/errors</a></li><li><a href="module-bin_helpers_api_api-helper.html">bin/helpers/api/api-helper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper.html">bin/helpers/api/cloudinary-helper</a></li><li><a href="module-bin_helpers_api_geocoder-helper.html">bin/helpers/api/geocoder-helper</a></li><li><a href="module-bin_helpers_general_general-helper.html">bin/helpers/general/general-helper</a></li><li><a href="module-bin_helpers_slugs_slug.html">bin/helpers/slugs/slug</a></li><li><a href="module-bin_scripts_seeds_seed-all.html">bin/scripts/seeds/seed-all</a></li><li><a href="module-lib_app.html">lib/app</a></li><li><a href="module-lib_controllers_campground-controller.html">lib/controllers/campground-controller</a></li><li><a href="module-lib_controllers_comment-controller.html">lib/controllers/comment-controller</a></li><li><a href="module-lib_controllers_notification-controller.html">lib/controllers/notification-controller</a></li><li><a href="module-lib_controllers_user-controller.html">lib/controllers/user-controller</a></li><li><a href="module-lib_middleware_middleware.html">lib/middleware/middleware</a></li><li><a href="module-lib_middleware_mongoose_global-pre-hooks.html">lib/middleware/mongoose/global-pre-hooks</a></li><li><a href="module-lib_middleware_mongoose_mongoose-middleware.html">lib/middleware/mongoose/mongoose-middleware</a></li><li><a href="module-lib_models_campground.html">lib/models/campground</a></li><li><a href="module-lib_models_comment.html">lib/models/comment</a></li><li><a href="module-lib_models_notification.html">lib/models/notification</a></li><li><a href="module-lib_models_user.html">lib/models/user</a></li><li><a href="module-lib_routes_campgrounds.html">lib/routes/campgrounds</a></li><li><a href="module-lib_routes_comments.html">lib/routes/comments</a></li><li><a href="module-lib_routes_errors.html">lib/routes/errors</a></li><li><a href="module-lib_routes_index.html">lib/routes/index</a></li></ul><h3>Classes</h3><ul><li><a href="module-bin_errors_errors-APIResponseError.html">APIResponseError</a></li><li><a href="module-bin_errors_errors-CloudinaryResponseError.html">CloudinaryResponseError</a></li><li><a href="module-bin_errors_errors-ExtendedError.html">ExtendedError</a></li><li><a href="module-bin_errors_errors-InternalError.html">InternalError</a></li><li><a href="module-bin_errors_errors-NodeGeocoderResponseError.html">NodeGeocoderResponseError</a></li><li><a href="module-bin_errors_errors-ResourceNotFoundError.html">ResourceNotFoundError</a></li><li><a href="module-bin_helpers_api_api-helper-APIHelper.html">APIHelper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper-CloudinaryHelper.html">CloudinaryHelper</a></li><li><a href="module-bin_helpers_api_geocoder-helper-GeocoderHelper.html">GeocoderHelper</a></li><li><a href="module-bin_helpers_general_general-helper-GeneralHelper.html">GeneralHelper</a></li><li><a href="module-lib_controllers_campground-controller-CampgroundController.html">CampgroundController</a></li><li><a href="module-lib_controllers_comment-controller-CommentController.html">CommentController</a></li><li><a href="module-lib_controllers_notification-controller-NotificationController.html">NotificationController</a></li><li><a href="module-lib_controllers_user-controller-UserController.html">UserController</a></li><li><a href="module-lib_middleware_middleware-MiddlewareObj.html">MiddlewareObj</a></li></ul><h3>Global</h3><ul><li><a href="global.html#APIHelper">APIHelper</a></li><li><a href="global.html#async">async</a></li><li><a href="global.html#Campground">Campground</a></li><li><a href="global.html#CampgroundController">CampgroundController</a></li><li><a href="global.html#CloudinaryHelper">CloudinaryHelper</a></li><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#crypto">crypto</a></li><li><a href="global.html#DB_PROVIDER">DB_PROVIDER</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#GeneralHelper">GeneralHelper</a></li><li><a href="global.html#GeocoderHelper">GeocoderHelper</a></li><li><a href="global.html#middleware">middleware</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#multer">multer</a></li><li><a href="global.html#NodeGeocoder">NodeGeocoder</a></li><li><a href="global.html#nodemailer">nodemailer</a></li><li><a href="global.html#Notification">Notification</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#PROVIDER">PROVIDER</a></li><li><a href="global.html#seedAll">seedAll</a></li><li><a href="global.html#Slug">Slug</a></li><li><a href="global.html#staticProperties">staticProperties</a></li><li><a href="global.html#User">User</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 08 2020 17:59:55 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 15 2020 14:48:13 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

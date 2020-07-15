@@ -31,39 +31,121 @@
 		 * mongoose module
 		 * @const
 		 */
-		mongoose		= require("mongoose");
+		mongoose		= require("mongoose"),
+		/**
+		* errors class module
+		*/
+		errors				= require("../../bin/errors/errors");
 
 /**
 @const
 @default
 */
-const staticProperties = {COLLECTION_NAME: "Comment"};
+const staticProperties = {
+	COLLECTION_NAME: "Comment",
+	PRIMARY_KEY: "_id",
+};
 
 /** 
 * Schema representing a Comment resource.
 * @module lib/models/comment
 * @require mongoose
+* @requires bin/errors/errors
 * @requires lib/middleware/mongoose/global-pre-hooks
 * @requires lib/middleware/mongoose/mongoose-middleware
 * @param {Schema} - The Comment resource schema.
 * @param {Object=} - The schema static properties.
 * @author Jose Nicolas Mora
 */
-const commentSchema = Object.assign(new mongoose.Schema({
+var commentSchema = Object.assign(new mongoose.Schema({
 	text: String,
 	createdAt: { type: Date, default: Date.now},
 	author: {
-		id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
-		},
-		username: String,
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User"
 	},
+	// parent can be anything
+	parent: {
+		onModel: String,
+		on: {
+			type: mongoose.Schema.Types.ObjectId,
+			refPath: 'parent.onModel'
+		}
+	},
+	// replies
+	comments: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Comment"
+		}
+	]
 }), staticProperties);
 
 commentSchema.plugin(require("../middleware/mongoose/global-pre-hooks"));
 
 commentSchema.plugin(require("../middleware/mongoose/mongoose-middleware"));
+
+/**
+* Removes the Comment resources of a Campground resource.
+* @param {Array} The array of Mongoose functions for which this middleware is called.
+* @param {Function} The callback function containing the logic of this prehook middleware.
+*/
+commentSchema.pre(["remove", "deleteOne"], async function() {
+	try {
+		await this.parent.populate("on").execPopulate(); // populate the parent
+		
+		const query = {};
+		query[this.constructor.schema.PRIMARY_KEY] = this._id;
+		await this.parent.on.comments.pull(query);
+		await this.parent.on.save();
+		
+	}
+	catch(err) {
+		const newError = new Error("There was a problem deleting the campground comment");
+		throw new errors.ExtendedError({error: newError, errorCause: err});
+	}
+});
+
+/**
+* Removes the Comment resources of a Campground resource.
+* @param {Array} The array of Mongoose functions for which this middleware is called.
+* @param {Function} The callback function containing the logic of this prehook middleware.
+*/
+commentSchema.post(["findOneAndDelete", "findOneAndRemove"], async function(doc, next) {
+	try {
+		await doc.parent.populate("on").execPopulate(); // populate the parent
+		
+		const query = {};
+		query[doc.constructor.schema.PRIMARY_KEY] = doc._id
+		await doc.parent.on.comments.pull(query);
+		await doc.parent.on.save();
+		
+		next();
+	}
+	catch(err) {
+		const newError = new Error("There was a problem deleting the campground comment");
+		throw new errors.ExtendedError({error: newError, errorCause: err});
+	}
+});
+
+/**
+* Recursively populate comments.
+* @param {module:lib/models/comment[]} The array of comments to be recursively populated.
+*/
+commentSchema.statics.populateAll = async function (comments) {
+	try{			
+		for(let comment of comments) {
+			await comment.populate("author").execPopulate();
+			await comment.populate("comments").execPopulate();
+			await comment.constructor.populateAll(	comment.comments);
+		}
+	}
+	catch(err) {
+		console.log(err);
+		const newError = new Error("There was a problem retreiving comments");
+		throw new errors.ExtendedError({error: newError, errorCause: err});
+	}
+}
 
 module.exports = mongoose.model(commentSchema.COLLECTION_NAME, commentSchema);
 
@@ -77,13 +159,13 @@ module.exports = mongoose.model(commentSchema.COLLECTION_NAME, commentSchema);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bin_errors_errors.html">bin/errors/errors</a></li><li><a href="module-bin_helpers_api_api-helper.html">bin/helpers/api/api-helper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper.html">bin/helpers/api/cloudinary-helper</a></li><li><a href="module-bin_helpers_api_geocoder-helper.html">bin/helpers/api/geocoder-helper</a></li><li><a href="module-bin_helpers_general_general-helper.html">bin/helpers/general/general-helper</a></li><li><a href="module-bin_helpers_slugs_slug.html">bin/helpers/slugs/slug</a></li><li><a href="module-bin_scripts_seeds_seed-all.html">bin/scripts/seeds/seed-all</a></li><li><a href="module-lib_app.html">lib/app</a></li><li><a href="module-lib_controllers_campground-controller.html">lib/controllers/campground-controller</a></li><li><a href="module-lib_controllers_comment-controller.html">lib/controllers/comment-controller</a></li><li><a href="module-lib_controllers_notification-controller.html">lib/controllers/notification-controller</a></li><li><a href="module-lib_controllers_user-controller.html">lib/controllers/user-controller</a></li><li><a href="module-lib_middleware_middleware.html">lib/middleware/middleware</a></li><li><a href="module-lib_middleware_mongoose_global-pre-hooks.html">lib/middleware/mongoose/global-pre-hooks</a></li><li><a href="module-lib_middleware_mongoose_mongoose-middleware.html">lib/middleware/mongoose/mongoose-middleware</a></li><li><a href="module-lib_models_campground.html">lib/models/campground</a></li><li><a href="module-lib_models_comment.html">lib/models/comment</a></li><li><a href="module-lib_models_notification.html">lib/models/notification</a></li><li><a href="module-lib_models_user.html">lib/models/user</a></li><li><a href="module-lib_routes_campgrounds.html">lib/routes/campgrounds</a></li><li><a href="module-lib_routes_comments.html">lib/routes/comments</a></li><li><a href="module-lib_routes_errors.html">lib/routes/errors</a></li><li><a href="module-lib_routes_index.html">lib/routes/index</a></li></ul><h3>Classes</h3><ul><li><a href="module-bin_errors_errors-APIResponseError.html">APIResponseError</a></li><li><a href="module-bin_errors_errors-CloudinaryResponseError.html">CloudinaryResponseError</a></li><li><a href="module-bin_errors_errors-ExtendedError.html">ExtendedError</a></li><li><a href="module-bin_errors_errors-InternalError.html">InternalError</a></li><li><a href="module-bin_errors_errors-NodeGeocoderResponseError.html">NodeGeocoderResponseError</a></li><li><a href="module-bin_errors_errors-ResourceNotFoundError.html">ResourceNotFoundError</a></li><li><a href="module-bin_helpers_api_api-helper-APIHelper.html">APIHelper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper-CloudinaryHelper.html">CloudinaryHelper</a></li><li><a href="module-bin_helpers_api_geocoder-helper-GeocoderHelper.html">GeocoderHelper</a></li><li><a href="module-bin_helpers_general_general-helper-GeneralHelper.html">GeneralHelper</a></li><li><a href="module-lib_controllers_campground-controller-CampgroundController.html">CampgroundController</a></li><li><a href="module-lib_controllers_comment-controller-CommentController.html">CommentController</a></li><li><a href="module-lib_controllers_notification-controller-NotificationController.html">NotificationController</a></li><li><a href="module-lib_controllers_user-controller-UserController.html">UserController</a></li><li><a href="module-lib_middleware_middleware-MiddlewareObj.html">MiddlewareObj</a></li></ul><h3>Global</h3><ul><li><a href="global.html#APIHelper">APIHelper</a></li><li><a href="global.html#async">async</a></li><li><a href="global.html#Campground">Campground</a></li><li><a href="global.html#CampgroundController">CampgroundController</a></li><li><a href="global.html#CloudinaryHelper">CloudinaryHelper</a></li><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#crypto">crypto</a></li><li><a href="global.html#DB_PROVIDER">DB_PROVIDER</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#GeneralHelper">GeneralHelper</a></li><li><a href="global.html#GeocoderHelper">GeocoderHelper</a></li><li><a href="global.html#middleware">middleware</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#multer">multer</a></li><li><a href="global.html#nodemailer">nodemailer</a></li><li><a href="global.html#Notification">Notification</a></li><li><a href="global.html#OPTIONS">OPTIONS</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#PROVIDER">PROVIDER</a></li><li><a href="global.html#seedAll">seedAll</a></li><li><a href="global.html#Slug">Slug</a></li><li><a href="global.html#staticProperties">staticProperties</a></li><li><a href="global.html#User">User</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-bin_errors_errors.html">bin/errors/errors</a></li><li><a href="module-bin_helpers_api_api-helper.html">bin/helpers/api/api-helper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper.html">bin/helpers/api/cloudinary-helper</a></li><li><a href="module-bin_helpers_api_geocoder-helper.html">bin/helpers/api/geocoder-helper</a></li><li><a href="module-bin_helpers_general_general-helper.html">bin/helpers/general/general-helper</a></li><li><a href="module-bin_helpers_slugs_slug.html">bin/helpers/slugs/slug</a></li><li><a href="module-bin_scripts_seeds_seed-all.html">bin/scripts/seeds/seed-all</a></li><li><a href="module-lib_app.html">lib/app</a></li><li><a href="module-lib_controllers_campground-controller.html">lib/controllers/campground-controller</a></li><li><a href="module-lib_controllers_comment-controller.html">lib/controllers/comment-controller</a></li><li><a href="module-lib_controllers_notification-controller.html">lib/controllers/notification-controller</a></li><li><a href="module-lib_controllers_user-controller.html">lib/controllers/user-controller</a></li><li><a href="module-lib_middleware_middleware.html">lib/middleware/middleware</a></li><li><a href="module-lib_middleware_mongoose_global-pre-hooks.html">lib/middleware/mongoose/global-pre-hooks</a></li><li><a href="module-lib_middleware_mongoose_mongoose-middleware.html">lib/middleware/mongoose/mongoose-middleware</a></li><li><a href="module-lib_models_campground.html">lib/models/campground</a></li><li><a href="module-lib_models_comment.html">lib/models/comment</a></li><li><a href="module-lib_models_notification.html">lib/models/notification</a></li><li><a href="module-lib_models_user.html">lib/models/user</a></li><li><a href="module-lib_routes_campgrounds.html">lib/routes/campgrounds</a></li><li><a href="module-lib_routes_comments.html">lib/routes/comments</a></li><li><a href="module-lib_routes_errors.html">lib/routes/errors</a></li><li><a href="module-lib_routes_index.html">lib/routes/index</a></li></ul><h3>Classes</h3><ul><li><a href="module-bin_errors_errors-APIResponseError.html">APIResponseError</a></li><li><a href="module-bin_errors_errors-CloudinaryResponseError.html">CloudinaryResponseError</a></li><li><a href="module-bin_errors_errors-ExtendedError.html">ExtendedError</a></li><li><a href="module-bin_errors_errors-InternalError.html">InternalError</a></li><li><a href="module-bin_errors_errors-NodeGeocoderResponseError.html">NodeGeocoderResponseError</a></li><li><a href="module-bin_errors_errors-ResourceNotFoundError.html">ResourceNotFoundError</a></li><li><a href="module-bin_helpers_api_api-helper-APIHelper.html">APIHelper</a></li><li><a href="module-bin_helpers_api_cloudinary-helper-CloudinaryHelper.html">CloudinaryHelper</a></li><li><a href="module-bin_helpers_api_geocoder-helper-GeocoderHelper.html">GeocoderHelper</a></li><li><a href="module-bin_helpers_general_general-helper-GeneralHelper.html">GeneralHelper</a></li><li><a href="module-lib_controllers_campground-controller-CampgroundController.html">CampgroundController</a></li><li><a href="module-lib_controllers_comment-controller-CommentController.html">CommentController</a></li><li><a href="module-lib_controllers_notification-controller-NotificationController.html">NotificationController</a></li><li><a href="module-lib_controllers_user-controller-UserController.html">UserController</a></li><li><a href="module-lib_middleware_middleware-MiddlewareObj.html">MiddlewareObj</a></li></ul><h3>Global</h3><ul><li><a href="global.html#APIHelper">APIHelper</a></li><li><a href="global.html#async">async</a></li><li><a href="global.html#Campground">Campground</a></li><li><a href="global.html#CampgroundController">CampgroundController</a></li><li><a href="global.html#CloudinaryHelper">CloudinaryHelper</a></li><li><a href="global.html#Comment">Comment</a></li><li><a href="global.html#CONFIG">CONFIG</a></li><li><a href="global.html#crypto">crypto</a></li><li><a href="global.html#DB_PROVIDER">DB_PROVIDER</a></li><li><a href="global.html#errors">errors</a></li><li><a href="global.html#express">express</a></li><li><a href="global.html#GeneralHelper">GeneralHelper</a></li><li><a href="global.html#GeocoderHelper">GeocoderHelper</a></li><li><a href="global.html#middleware">middleware</a></li><li><a href="global.html#mongoose">mongoose</a></li><li><a href="global.html#multer">multer</a></li><li><a href="global.html#NodeGeocoder">NodeGeocoder</a></li><li><a href="global.html#nodemailer">nodemailer</a></li><li><a href="global.html#Notification">Notification</a></li><li><a href="global.html#passport">passport</a></li><li><a href="global.html#PROVIDER">PROVIDER</a></li><li><a href="global.html#seedAll">seedAll</a></li><li><a href="global.html#Slug">Slug</a></li><li><a href="global.html#staticProperties">staticProperties</a></li><li><a href="global.html#User">User</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 08 2020 17:59:55 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed Jul 15 2020 14:48:13 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
