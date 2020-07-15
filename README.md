@@ -5,6 +5,7 @@
 * [Features](#features)
 * [Launch](#launch)
 * [Technologies](#technologies)
+* [Documentation](#documentation)
 * [Certificate](#certificate)
 
 ## Introduction
@@ -44,21 +45,21 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
   - Meaningful error messages
   - Dynamic price feature
 - Back-end
-  - Extensive [documentation](./docs) using [JSDoc](https://jsdoc.app/)
-  - Seperation of routes into [controller classes](./lib/controllers) and [routes](./lib/routes)
-  - Improved mongoose middleware for models to resolve inter [model](./lib/models) dependencies
-  - [API helper classes](./bin/helpers)
-  - [Custom stack trace extending error classes](./bin/errors/errors)
+  - Extensive [documentation](https://nikelausm.github.io/yelp-camp/) using [JSDoc](https://jsdoc.app/)
+  - Seperation of routes into [controller classes](https://github.com/NikelausM/yelp-camp/tree/master/lib/controllers) and [routes](https://github.com/NikelausM/yelp-camp/tree/master/lib/routes)
+  - Improved mongoose middleware for models to resolve inter [model](https://github.com/NikelausM/yelp-camp/tree/master/lib/models) dependencies
+  - [API helper classes](https://github.com/NikelausM/yelp-camp/tree/master/bin/helpers)
+  - [Custom stack trace extending error classes](https://github.com/NikelausM/yelp-camp/tree/master/bin/errors/errors)
 - Front-end
   - Mobile responsive front end design
   - Landing page animations
-  - Wrapper class for wrapping models used in [View](./lib/views) files to de-couple [Model](./lib/models) (database) from [View](./lib/views)
+  - Wrapper class for wrapping models used in [View](https://github.com/NikelausM/yelp-camp/tree/master/lib/views) files to de-couple [Model](https://github.com/NikelausM/yelp-camp/tree/master/lib/models) (database) from [View](https://github.com/NikelausM/yelp-camp/tree/master/lib/views)
     - This allows a developer to use the same wrapper class in the views for any model, regardless of complexity
     - This increases encapsulation of models used in views
   - Modals for seing who likes a Campground
   - Modals for enlarging images
-  - [Revamped profile page](./lib/views/users)
-  - Increased modularity of view layouts and partials, best exemplified by the [comments views](./lib/view/comments)
+  - [Revamped profile page](https://github.com/NikelausM/yelp-camp/tree/master/lib/views/users)
+  - Increased modularity of view layouts and partials, best exemplified by the [comments views](https://github.com/NikelausM/yelp-camp/tree/master/lib/view/comments)
     - Even more meaningful dynamic error messages
 
 ## Launch
@@ -111,7 +112,7 @@ You may use the following account to login:
   - For parsing request bodies.
 - [cloudinary ^1.21.0](https://www.npmjs.com/package/cloudinary)
   - For using the [Cloudinary API](https://cloudinary.com/) to store images on the cloud.
-  - I created a [wrapper class for this module](./bin/helpers/api/cloudinary-helper.js) to improve error handling.
+  - I created a [wrapper class for this module](https://github.com/NikelausM/yelp-camp/tree/master/bin/helpers/api/cloudinary-helper.js) to improve error handling.
 - [connect-flash ^0.1.1](https://www.npmjs.com/package/connect-flash)
   - For flash messages.
 - [dotenv ^8.2.0](https://www.npmjs.com/package/dotenv)
@@ -124,7 +125,7 @@ You may use the following account to login:
   - For handling multipart/form-data
 - [node-geocoder ^3.27.0](https://www.npmjs.com/package/node-geocoder)
   - For using the [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/intro) to convert addresses to coordinates.
-  - I created a [wrapper class for this module](./bin/helpers/api/geocoder-helper.js) to improve error handling.
+  - I created a [wrapper class for this module](https://github.com/NikelausM/yelp-camp/tree/master/bin/helpers/api/geocoder-helper.js) to improve error handling.
 - [nodemailer ^6.4.8](https://www.npmjs.com/package/nodemailer)
   - For sending emails, such as for resetting a password.
 - [passport ^0.4.1](https://www.npmjs.com/package/passport)
