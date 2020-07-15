@@ -55,7 +55,7 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
   - Wrapper class for wrapping models used in [View](./lib/views) files to de-couple [Model](./lib/models) (database) from [View](./lib/views)
     - This allows a developer to use the same wrapper class in the views for any model, regardless of complexity
     - This increases encapsulation of models used in views
-  - Modals for seing how liked which campgrounds
+  - Modals for seing who likes a Campground
   - Modals for enlarging images
   - [Revamped profile page](./lib/views/users)
   - Increased modularity of view layouts and partials, best exemplified by the [comments views](./lib/view/comments)
