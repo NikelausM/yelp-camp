@@ -18,9 +18,9 @@
 
 This is a repository of my (Jose Nicolas Mora) YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
 
-Check out my Github: <https://github.com/NikelausM/>
+Check out my Github: <a src="https://github.com/NikelausM/"></a>
 
-Check out my LinkedIn: <https://linkedin.com/in/nicolas-mora-a54245105>
+Check out my LinkedIn: <a src="https://linkedin.com/in/nicolas-mora-a54245105"></a>
 
 <h2 id="features">Features</h2>
 
@@ -67,8 +67,8 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
   - Modals for seing who likes a Campground
   - Modals for enlarging images
   - [Revamped profile page](https://github.com/NikelausM/yelp-camp/tree/master/lib/views/users)
-  - Increased modularity of view layouts and partials, best exemplified by the [comments views](https://github.com/NikelausM/yelp-camp/tree/master/lib/view/comments)
-    - Even more meaningful dynamic error messages
+  - Increased modularity of view layouts and partials, best exemplified by the [comments views](https://github.com/NikelausM/yelp-camp/tree/master/lib/views/comments)
+  - Even more meaningful dynamic error messages
 <h2 id="launch">Launch</h2>
 
 ### Setup
@@ -161,7 +161,7 @@ You may use the following account to login:
   
 <h2 id="documentation">Documentation</h2>
 
-Check out the documentation for this project: <https://nikelausm.github.io/yelp-camp/>
+Check out the documentation for this project: <a src"https://nikelausm.github.io/yelp-camp/"></a>
 
 <h2 id="certificate">Certificate</h2>
 
