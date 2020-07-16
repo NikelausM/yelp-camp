@@ -86,7 +86,7 @@ node ./lib/app.js --async-stack-trace
 ```
 
 ### Deployment
-This application is deployed as a read-only version to the following link: https://yelp-camp-nikelausm.herokuapp.com/
+This application is deployed as a read-only version to the following link: [https://yelp-camp-nikelausm.herokuapp.com/](https://yelp-camp-nikelausm.herokuapp.com/)
 
 You may use the following account to login:
 - username: jackofhearts
