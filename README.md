@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 
-<h1>
+<h1> @icn-campground
  <i class="fas fa-campground"></i>
   Yelp Camp
 </h1>
