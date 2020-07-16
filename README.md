@@ -18,9 +18,9 @@
 
 This is a repository of my (Jose Nicolas Mora) YelpCamp project for the Udemy course, [The Web Developer Bootcamp](https://www.udemy.com/course/the-web-developer-bootcamp/).
 
-Check out my Github: <a src="https://github.com/NikelausM/"></a>
+Check out my Github: <a href="https://github.com/NikelausM/"></a>
 
-Check out my LinkedIn: <a src="https://linkedin.com/in/nicolas-mora-a54245105"></a>
+Check out my LinkedIn: <a href="https://linkedin.com/in/nicolas-mora-a54245105"></a>
 
 <h2 id="features">Features</h2>
 
@@ -161,7 +161,7 @@ You may use the following account to login:
   
 <h2 id="documentation">Documentation</h2>
 
-Check out the documentation for this project: <a src"https://nikelausm.github.io/yelp-camp/"></a>
+Check out the documentation for this project: <a href="https://nikelausm.github.io/yelp-camp/"></a>
 
 <h2 id="certificate">Certificate</h2>
 
