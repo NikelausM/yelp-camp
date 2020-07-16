@@ -66,7 +66,7 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
     - This increases encapsulation of models used in views
   - Modals for seing who likes a Campground
   - Modals for enlarging images
-  - [Revamped profile page](https://github.com/NikelausM/yelp-camp/tree/master/lib/views/users)
+  - [Revamped profile page](https://github.com/NikelausM/yelp-camp/tree/master/lib/views/users/show.ejs)
   - Increased modularity of view layouts and partials, best exemplified by the [comments views](https://github.com/NikelausM/yelp-camp/tree/master/lib/views/comments)
   - Even more meaningful dynamic error messages
 <h2 id="launch">Launch</h2>
