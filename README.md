@@ -72,7 +72,7 @@ YelpCamp is a yelp style, campground themed website. It allows for users to brow
 <h2 id="launch">Launch</h2>
 
 ### Setup
-To install, first clone this repository, then in the command line type and enter:
+To install, first fork this repository, then in the command line type and enter:
 ```
 npm install https://github.com/NikelausM/yelp-camp/
 ```
