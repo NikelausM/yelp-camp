@@ -80,7 +80,7 @@ To run:
 ```
 node ./lib/app.js
 ```
-To run and preserve asynchronous stack traces.
+To run and preserve asynchronous stack traces:
 ```
 node ./lib/app.js --async-stack-trace
 ```
