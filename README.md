@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
 
-<p align="center"><img src="./Campground Logo.PNG"><p>
+<p align="center"><img src="./Campground Logo.PNG" width="250" height="250"><p>
 
 <h1>Yelp Camp</h1>
   
